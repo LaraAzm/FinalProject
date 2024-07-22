@@ -1,0 +1,39 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+## Introduction:
+
+
+## Initial Library Read-in:
+```{r, warning = FALSE, message = FALSE}
+library(readr)
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(caret)
+library(randomForest)
+```
+
+## Data:
+```{r}
+#reading in the csv 
+diabetes_model <- read_csv("./data/diabetes_binary_health_indicators_BRFSS2015.csv")
+```
+
+```{r}
+#setting seed for reproducability
+set.seed(123)
+
+#setting up to split the data into two for later use as training and testing 
+train <- sample(1:nrow(diabetes_model), size = nrow(diabetes_data)*0.7)
+test <- setdiff(1:nrow(diabetes_model), train)
+
+#subsetting the data set
+diabetes_train <- diabetes_model[train, ]
+diabetes_test <- diabetes_model[test, ]
+```
+
+
