@@ -1,7 +1,8 @@
 ---
-title: "Untitled"
+title: "ST558 - Final Project: Modeling"
+authors: Laraib Azmat
+date: July 20, 2024
 format: html
-editor: visual
 ---
 ## Introduction:
 
