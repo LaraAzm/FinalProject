@@ -124,4 +124,4 @@ ggplot(diabetes_data, aes(MentHlth, fill = Diabetes_binary)) +
   scale_y_continuous(labels = function(y) format(y, scientific = FALSE))
 ```
 
-
+[Model Fitting](docs/Modeling.html)
