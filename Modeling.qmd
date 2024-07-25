@@ -4,7 +4,9 @@ authors: Laraib Azmat
 date: July 20, 2024
 format: html
 ---
-## Introduction:
+## Introduction: 
+
+  > The base data set for this workthrough is a binary data set of survey responses to a CDC behavioral and chronic disease surveillance study done for diabetes. I have chosen `mental health`, `healthcare`, `ability/inability to see a physicians due to the cost of the visit` and `difficulty walking` as my variables. The response variable is the `presence of prediabetes or diabetes`. Here, I will be modeling using log loss. Log loss is the negative of log of likelihood, a function denoting the likelihood a model believes the real observed values could occur. Accuracy can only be applied to classification tasks and while easier to interpret, higher number means higher accuracy, its limitations mean that it cannot be applied to regression tasks. Log loss is best used for binary classifications because of the connection between the likelihood function and if the response variable is encoded as 0 or 1. 
 
 
 ## Initial Library Read-in:
@@ -16,6 +18,7 @@ library(tidyverse)
 library(ggplot2)
 library(caret)
 library(randomForest)
+library(Metrics)
 ```
 
 ## Data:
@@ -25,16 +28,192 @@ diabetes_model <- read_csv("./data/diabetes_binary_health_indicators_BRFSS2015.c
 ```
 
 ```{r}
+#creating a subsected data for ease of data processing 
+diabetes_sub <- diabetes_model |>
+  select(Diabetes_binary, AnyHealthcare, NoDocbcCost, MentHlth)
+```
+
+```{r echo = FALSE}
+#changing variables to factor with valid levels; added the if statements to prevent the code from not running when the columns were already changed
+if(is.numeric(diabetes_sub$Diabetes_binary)) diabetes_sub$Diabetes_binary <- cut(diabetes_sub$Diabetes_binary, 2, labels = c("No", "Pre.Yes"))
+
+if(is.numeric(diabetes_sub$NoDocbcCost)) diabetes_sub$NoDocbcCost <- cut(diabetes_sub$NoDocbcCost, 2, labels = c("No.Doc", "Yes.Doc"))  
+
+if(is.numeric(diabetes_sub$AnyHealthcare)) diabetes_sub$AnyHealthcare <- cut(diabetes_sub$AnyHealthcare, 2, labels = c("No.HC", "Yes.HC"))    
+```
+
+```{r}
 #setting seed for reproducability
 set.seed(123)
 
 #setting up to split the data into two for later use as training and testing 
-train <- sample(1:nrow(diabetes_model), size = nrow(diabetes_data)*0.7)
-test <- setdiff(1:nrow(diabetes_model), train)
+train <- sample(1:nrow(diabetes_sub), size = nrow(diabetes_sub)*0.7)
+test <- setdiff(1:nrow(diabetes_sub), train)
 
 #subsetting the data set
-diabetes_train <- diabetes_model[train, ]
-diabetes_test <- diabetes_model[test, ]
+diabetes_train <- diabetes_sub[train, ]
+diabetes_test <- diabetes_sub[test, ]
 ```
 
+## Models: 
+```{r}
+#setting up training control for future models
+trainctrl <- trainControl(method = "cv", 
+                          number = 5, 
+                          summaryFunction = mnLogLoss, 
+                          classProbs = TRUE)
+```
+
+### Logistic Regression: 
+#### Binomial: 
+```{r warning = FALSE, message = FALSE}
+#setting up a seed for reproducing results
+set.seed(124)
+
+binom <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth,
+                  data = diabetes_sub,
+                  method = "glm",
+                  family = binomial,
+                  preProcess = c("center", "scale"),
+                  trControl = trainctrl)
+
+#running the model
+binom
+```
+
+```{r warning = FALSE, message = FALSE}
+#setting up a seed for reproducing results
+set.seed(125)
+
+multinom <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth,
+              data = diabetes_sub,
+              method = "multinom",
+              trControl = trainctrl,
+              preProcess=c("center","scale"),
+              trace = FALSE)
+
+#running the model
+multinom
+```
+
+```{r warning = FALSE, message = FALSE}
+#setting up a seed for reproducing results
+set.seed(126)
+
+bayes <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth,
+              data = diabetes_sub,
+              method = "bayesglm",
+              trControl = trainctrl,
+              preProcess=c("center","scale"),
+              trace = FALSE)
+
+#running the model
+bayes
+```
+
+```{r}
+rbind(c("Mod1", binom$results[c("logLoss", "logLossSD")]),
+      c("Mod2", multinom$results[1, ][c("logLoss", "logLossSD")]),
+      c("Mod3", bayes$results[c("logLoss", "logLossSD")])
+      )
+```
+
+### Classification Tree:
+```{r warning = FALSE, message = FALSE}
+#setting up a seed for reproducing results
+set.seed(127)
+
+#creating an object for the tuning parameter
+cp <- expand.grid(cp = seq(0, 0.1, 0.001))
+
+classtree <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth, 
+              data = diabetes_train,
+              method = "rpart",
+              metric = "logLoss",
+              trControl = trainctrl,
+              tuneGrid = cp)
+
+#running the model
+classtree
+```
+
+### Random Forest
+```{r warning = FALSE, message = FALSE}
+#setting up a seed for reproducing results
+set.seed(128)
+
+#setting up mtry sequence with 11 as the number of predictors
+mtry <- expand.grid(mtry = seq(1:5))
+
+#building the model with random forest model and training it on the train data set
+randtree <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth, 
+                 data = diabetes_sub, 
+                 method = "rf",
+                 preProcess = c("center", "scale"),
+                 tuneGrid = mtry,
+                 ntree = 50,
+                 trControl = trainctrl)
+
+#running the model
+randtree
+```
+
+```{r}
+predict1 <- predict(bayes, diabetes_test, type = "prob")
+
+predict1$predict <- 1 - predict1$No
+
+obs <- diabetes_test$Diabetes_binary
+
+obs <- recode(obs, No = 0, Pre.Yes = 1, .default = NA_real_)
+
+logLoss(obs, predict2$predict)
+```
+```{r}
+#repeating with caret just for the heck of it
+predicted1 <- data.frame(obs = diabetes_test$Diabetes_binary,
+                        pred = predict(bayes, diabetes_test),
+                        predict(bayes, diabetes_test, type = "prob"))
+
+#running the built 
+mnLogLoss(predicted, lev = levels(predicted$obs))
+```
+
+```{r}
+predict2 <- predict(classtree, diabetes_test, type = "prob")
+
+predict2$predict <- 1 - predict2$No
+
+logLoss(obs, predict2$predict)
+```
+```{r}
+#repeating with caret just for the heck of it
+predicted2 <- data.frame(obs = diabetes_test$Diabetes_binary,
+                        pred = predict(classtree, diabetes_test),
+                        predict(classtree, diabetes_test, type = "prob"))
+
+mnLogLoss(predicted2, lev = levels(predicted$obs))
+```
+
+
+```{r}
+predict3 <- predict(randtree, diabetes_test, type = "prob")
+
+predict3$predict <- 1 - predict3$No
+
+logLoss(obs, predict3$predict)
+```
+
+```{r}
+#this time the repitition has an actual function
+predicted2 <- data.frame(obs = diabetes_test$Diabetes_binary,
+                        pred = predict(randtree, diabetes_test),
+                        predict(randtree, diabetes_test, type = "prob"))
+
+mnLogLoss(predicted, lev = levels(predicted$obs))
+```
+
+```{r}
+summary(predict(randtree, diabetes_test, type = "prob"))
+```
 

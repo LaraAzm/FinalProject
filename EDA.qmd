@@ -6,7 +6,7 @@ format: html
 ---
 
 ## Introduction: 
-  > The base data set for this workthrough is a binary data set of survey responses to a CDC behavioral and chronic disease surveillance study done for diabetes. I have chosen `mental health`, `healthcare`, `ability/inability to see a physicians due to the cost of the visit` and `difficulty walking as my variables`. The response variable is the `presence of prediabetes or diabetes`. The purpose of this EDA is to get a general idea of how the chosen variables effect levels of diabetes. Ultimately, I will be using these variables to model the likelyhood of diabetes occuring at different levels of variables. 
+  > The base data set for this workthrough is a binary data set of survey responses to a CDC behavioral and chronic disease surveillance study done for diabetes. I have chosen `mental health`, `healthcare` and `ability/inability to see a physicians due to the cost of the visit`. The response variable is the `presence of prediabetes or diabetes`. The purpose of this EDA is to get a general idea of how the chosen variables effect levels of diabetes. Ultimately, I will be using these variables to model the likelyhood of diabetes occuring at different levels of variables. 
 
 ## Initial Library Read-in:
 ```{r, warning = FALSE, message = FALSE}
@@ -16,6 +16,7 @@ library(Rmisc)
 library(dplyr)
 library(tidyverse)
 library(ggplot2)
+library(scales)
 ```
 
 ## Data:
@@ -29,36 +30,37 @@ diabetes_data <- read_csv("./data/diabetes_binary_health_indicators_BRFSS2015.cs
 sum(is.na(diabetes_data))
 ```
 
-```{r}
+```{r echo = FALSE}
 #changing variables to factor with valid levels; added the if statements to prevent the code from not running when the columns were already changed
 if(is.numeric(diabetes_data$Diabetes_binary)) diabetes_data$Diabetes_binary <- cut(diabetes_data$Diabetes_binary, 2, labels = c("No", "Pre/Yes"))
 
-if(is.numeric(diabetes_data$HighBP)) diabetes_data$HighBP <- cut(diabetes_data$HighBP, 2, labels = c("No", "Yes"))
+if(is.numeric(diabetes_data$HighBP)) diabetes_data$HighBP <- cut(diabetes_data$HighBP, 2, labels = c("No HPB", "Yes HBP"))
 
-if(is.numeric(diabetes_data$HighChol)) diabetes_data$HighChol <- cut(diabetes_data$HighChol, 2, labels = c("No", "Yes"))
+if(is.numeric(diabetes_data$HighChol)) diabetes_data$HighChol <- cut(diabetes_data$HighChol, 2, labels = c("No HiC", "Yes HiC"))
 
-if(is.numeric(diabetes_data$CholCheck)) diabetes_data$CholCheck <- cut(diabetes_data$CholCheck, 2, labels = c("No", "Yes"))
+if(is.numeric(diabetes_data$CholCheck)) diabetes_data$CholCheck <- cut(diabetes_data$CholCheck, 2, labels = c("No CC", "Yes CC"))
 
-if(is.numeric(diabetes_data$Smoker)) diabetes_data$Smoker <- cut(diabetes_data$Smoker, 2, labels = c("No", "Yes"))
+if(is.numeric(diabetes_data$Smoker)) diabetes_data$Smoker <- cut(diabetes_data$Smoker, 2, labels = c("No Sm", "Yes Sm"))
 
-if(is.numeric(diabetes_data$Stroke)) diabetes_data$Stroke <- cut(diabetes_data$Stroke, 2, labels = c("No", "Yes"))
+if(is.numeric(diabetes_data$Stroke)) diabetes_data$Stroke <- cut(diabetes_data$Stroke, 2, labels = c("No St", "Yes St"))
 
-if(is.numeric(diabetes_data$HeartDiseaseorAttack)) diabetes_data$HeartDiseaseorAttack <- cut(diabetes_data$HeartDiseaseorAttack, 2, labels = c("No", "Yes"))
+if(is.numeric(diabetes_data$HeartDiseaseorAttack)) diabetes_data$HeartDiseaseorAttack <- cut(diabetes_data$HeartDiseaseorAttack, 2, labels = c("No HD", "Yes HD"))
 
-if(is.numeric(diabetes_data$PhysActivity)) diabetes_data$PhysActivity <- cut(diabetes_data$PhysActivity, 2, labels = c("No", "Yes"))
+if(is.numeric(diabetes_data$PhysActivity)) diabetes_data$PhysActivity <- cut(diabetes_data$PhysActivity, 2, labels = c("No Phys", "Yes Phys"))
 
-if(is.numeric(diabetes_data$Fruits)) diabetes_data$Fruits <- cut(diabetes_data$Fruits, 2, labels = c("No", "Yes"))
+if(is.numeric(diabetes_data$Fruits)) diabetes_data$Fruits <- cut(diabetes_data$Fruits, 2, labels = c("No Fr", "Yes Fr"))
 
-if(is.numeric(diabetes_data$Veggies)) diabetes_data$Veggies <- cut(diabetes_data$Veggies, 2, labels = c("No", "Yes"))
+if(is.numeric(diabetes_data$Veggies)) diabetes_data$Veggies <- cut(diabetes_data$Veggies, 2, labels = c("No Veg", "Yes Veg"))
 
-if(is.numeric(diabetes_data$HvyAlcoholConsump)) diabetes_data$HvyAlcoholConsump <- cut(diabetes_data$HvyAlcoholConsump, 2, labels = c("No", "Yes"))
+if(is.numeric(diabetes_data$HvyAlcoholConsump)) diabetes_data$HvyAlcoholConsump <- cut(diabetes_data$HvyAlcoholConsump, 2, labels = c("No AC", "Yes Ac"))
 
-if(is.numeric(diabetes_data$NoDocbcCost)) diabetes_data$NoDocbcCost <- cut(diabetes_data$NoDocbcCost, 2, labels = c("No", "Yes"))                                    
-if(is.numeric(diabetes_data$AnyHealthcare)) diabetes_data$AnyHealthcare <- cut(diabetes_data$AnyHealthcare, 2, labels = c("No", "Yes"))    
+if(is.numeric(diabetes_data$NoDocbcCost)) diabetes_data$NoDocbcCost <- cut(diabetes_data$NoDocbcCost, 2, labels = c("No Doc", "Yes Doc"))  
+
+if(is.numeric(diabetes_data$AnyHealthcare)) diabetes_data$AnyHealthcare <- cut(diabetes_data$AnyHealthcare, 2, labels = c("No HC", "Yes HC"))    
 
 if(is.numeric(diabetes_data$GenHlth)) diabetes_data$GenHlth <- cut(diabetes_data$GenHlth, 5, labels = c("Excellent", "Very good", "Good", "Fair", "Poor"))
 
-if(is.numeric(diabetes_data$DiffWalk)) diabetes_data$DiffWalk <- cut(diabetes_data$DiffWalk, 2, labels = c("No", "Yes"))
+if(is.numeric(diabetes_data$DiffWalk)) diabetes_data$DiffWalk <- cut(diabetes_data$DiffWalk, 2, labels = c("No Diff", "Yes Diff"))
 
 if(is.numeric(diabetes_data$Sex)) diabetes_data$Sex <- cut(diabetes_data$Sex, 2, labels = c("Male", "Female"))
 
@@ -69,30 +71,57 @@ if(is.numeric(diabetes_data$Education)) diabetes_data$Education <- cut(diabetes_
 if(is.numeric(diabetes_data$Income)) diabetes_data$Income <- cut(diabetes_data$Income, 8, labels = c("< $10,000", "< $15,000", "< $20,000", "< $25,000", "< $35,000", "< $50,000", "< $75,000", "> $75,000"))
 ```
 
+```{r}
+#getting an idea of the data set
+diabetes_data
+```
+
+
 ## Summaries:
 ```{r}
 #getting an idea of the count of different levels, this can also provide a general idea of how likely it is for someone to have diabetes under certain conditions; this is further shown through the plots
 diabetes_data |>
-  group_by(Diabetes_binary, MentHlth, AnyHealthcare, NoDocbcCost, DiffWalk) |>
+  group_by(Diabetes_binary, MentHlth, AnyHealthcare, NoDocbcCost) |>
   tally()
 ```
 
 ```{r}
+#looking at the interactions between the different categorical variables and the response variable 
 p1 <- ggplot(diabetes_data, aes(Diabetes_binary, fill = interaction(AnyHealthcare, NoDocbcCost))) + 
       geom_bar(position = "dodge")
 
 p2 <- ggplot(diabetes_data, aes(Diabetes_binary, fill = interaction(DiffWalk, NoDocbcCost))) + 
       geom_bar(position = "dodge")
 
-p3 <- ggplot(diabetes_data, aes(Diabetes_binary, fill = interaction(AnyHealthcare, DiffWalk))) + 
-      geom_bar(position = "dodge")
+multiplot(p1,p2)
+```
+  > When looking at the interactions, a vast majority of the population has healthcare, no difficulty walking and costs are not an immediate concrern when going to the doctor. This majority also does not exibit any signs of diabetes. There are logical conclusions that could be drawn from this data alone, such as access to healthcare leading to healthier life styles which lower the chances of diabetes occuring in a population. However, these are just raw numbers. Further analysis would be needed to examine the likelyhood of such an occurance. 
 
-multiplot(p1,p2,p3)
+```{r}
+#using a different setup to look at the interaction
+ggplot(diabetes_data, aes(x = Diabetes_binary, fill = AnyHealthcare)) +
+    geom_bar(position = "dodge") +
+    facet_grid(.~NoDocbcCost, labeller=label_both) 
 ```
 
 ```{r}
-ggplot(diabetes_data, aes(x = Diabetes_binary, fill = AnyHealthcare)) +
-    geom_bar(position = "dodge") +
-    facet_grid(NoDocbcCost~DiffWalk, labeller=label_both) 
+#visualizing population mental health and diabetes diagnisis
+ggplot(diabetes_data, aes(x = MentHlth, fill = Diabetes_binary)) + 
+    geom_bar(position = "dodge")
 ```
+
+```{r}
+#adding mental health to other variable visualization
+ggplot(diabetes_data, aes(MentHlth, fill = Diabetes_binary)) +
+  geom_bar(position = "dodge") +
+  facet_grid(AnyHealthcare~NoDocbcCost, switch = "x", labeller=label_both) +
+  theme_bw() +
+  theme(strip.placement = "outside",
+        strip.background = element_blank(),
+        panel.border = element_blank(),
+        panel.spacing = unit(0, "points"),
+        axis.line = element_line()) + 
+  scale_y_continuous(labels = function(y) format(y, scientific = FALSE))
+```
+
 
