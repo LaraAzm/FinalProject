@@ -332,7 +332,7 @@ Resampling results:
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">127</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#creating an object for the tuning parameter</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>cp <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">cp =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fl">0.001</span>))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>cp <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">cp =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fl">0.01</span>))</span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#unfortunately, the resulting tree model needed additional variables to get a better fit</span></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>classtree <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth <span class="sc">+</span> Age <span class="sc">+</span> BMI <span class="sc">+</span> PhysHlth <span class="sc">+</span> Education, </span>
@@ -357,111 +357,126 @@ Resampling: Cross-Validated (5 fold)
 Summary of sample sizes: 142061, 142060, 142061, 142061, 142061 
 Resampling results across tuning parameters:
 
-  cp     logLoss  
-  0.000  0.3795635
-  0.001  0.3991694
-  0.002  0.4032255
-  0.003  0.4032255
-  0.004  0.4032255
-  0.005  0.4032255
-  0.006  0.4032255
-  0.007  0.4032255
-  0.008  0.4032255
-  0.009  0.4032255
-  0.010  0.4032255
-  0.011  0.4032255
-  0.012  0.4032255
-  0.013  0.4032255
-  0.014  0.4032255
-  0.015  0.4032255
-  0.016  0.4032255
-  0.017  0.4032255
-  0.018  0.4032255
-  0.019  0.4032255
-  0.020  0.4032255
-  0.021  0.4032255
-  0.022  0.4032255
-  0.023  0.4032255
-  0.024  0.4032255
-  0.025  0.4032255
-  0.026  0.4032255
-  0.027  0.4032255
-  0.028  0.4032255
-  0.029  0.4032255
-  0.030  0.4032255
-  0.031  0.4032255
-  0.032  0.4032255
-  0.033  0.4032255
-  0.034  0.4032255
-  0.035  0.4032255
-  0.036  0.4032255
-  0.037  0.4032255
-  0.038  0.4032255
-  0.039  0.4032255
-  0.040  0.4032255
-  0.041  0.4032255
-  0.042  0.4032255
-  0.043  0.4032255
-  0.044  0.4032255
-  0.045  0.4032255
-  0.046  0.4032255
-  0.047  0.4032255
-  0.048  0.4032255
-  0.049  0.4032255
-  0.050  0.4032255
-  0.051  0.4032255
-  0.052  0.4032255
-  0.053  0.4032255
-  0.054  0.4032255
-  0.055  0.4032255
-  0.056  0.4032255
-  0.057  0.4032255
-  0.058  0.4032255
-  0.059  0.4032255
-  0.060  0.4032255
-  0.061  0.4032255
-  0.062  0.4032255
-  0.063  0.4032255
-  0.064  0.4032255
-  0.065  0.4032255
-  0.066  0.4032255
-  0.067  0.4032255
-  0.068  0.4032255
-  0.069  0.4032255
-  0.070  0.4032255
-  0.071  0.4032255
-  0.072  0.4032255
-  0.073  0.4032255
-  0.074  0.4032255
-  0.075  0.4032255
-  0.076  0.4032255
-  0.077  0.4032255
-  0.078  0.4032255
-  0.079  0.4032255
-  0.080  0.4032255
-  0.081  0.4032255
-  0.082  0.4032255
-  0.083  0.4032255
-  0.084  0.4032255
-  0.085  0.4032255
-  0.086  0.4032255
-  0.087  0.4032255
-  0.088  0.4032255
-  0.089  0.4032255
-  0.090  0.4032255
-  0.091  0.4032255
-  0.092  0.4032255
-  0.093  0.4032255
-  0.094  0.4032255
-  0.095  0.4032255
-  0.096  0.4032255
-  0.097  0.4032255
-  0.098  0.4032255
-  0.099  0.4032255
-  0.100  0.4032255
+  cp    logLoss  
+  0.00  0.3795635
+  0.01  0.4032255
+  0.02  0.4032255
+  0.03  0.4032255
+  0.04  0.4032255
+  0.05  0.4032255
+  0.06  0.4032255
+  0.07  0.4032255
+  0.08  0.4032255
+  0.09  0.4032255
+  0.10  0.4032255
 
 logLoss was used to select the optimal model using the smallest value.
 The final value used for the model was cp = 0.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setting up a seed for reproducing results</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">128</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#altering the tuning parameter</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>cp2 <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">cp =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">0.05</span>))</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>classtree2 <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth <span class="sc">+</span> Age <span class="sc">+</span> BMI <span class="sc">+</span> PhysHlth <span class="sc">+</span> Education, </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> diabetes_train,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"rpart"</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">metric =</span> <span class="st">"logLoss"</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">trControl =</span> trainctrl,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">preProcess=</span><span class="fu">c</span>(<span class="st">"center"</span>,<span class="st">"scale"</span>),</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">tuneGrid =</span> cp2)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>classtree2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CART 
+
+177576 samples
+     7 predictor
+     2 classes: 'No', 'Pre.Yes' 
+
+Pre-processing: centered (22), scaled (22) 
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 142061, 142061, 142060, 142061, 142061 
+Resampling results across tuning parameters:
+
+  cp    logLoss  
+  0.00  0.3835350
+  0.05  0.4032255
+  0.10  0.4032255
+  0.15  0.4032255
+  0.20  0.4032255
+  0.25  0.4032255
+  0.30  0.4032255
+  0.35  0.4032255
+  0.40  0.4032255
+  0.45  0.4032255
+  0.50  0.4032255
+
+logLoss was used to select the optimal model using the smallest value.
+The final value used for the model was cp = 0.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setting up a seed for reproducing results</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">129</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#altering the tuning parameter</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>cp3 <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">cp =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.1</span>))</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>classtree3 <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth <span class="sc">+</span> Age <span class="sc">+</span> BMI <span class="sc">+</span> PhysHlth <span class="sc">+</span> Education, </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> diabetes_train,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"rpart"</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">metric =</span> <span class="st">"logLoss"</span>,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">trControl =</span> trainctrl,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">preProcess=</span><span class="fu">c</span>(<span class="st">"center"</span>,<span class="st">"scale"</span>),</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">tuneGrid =</span> cp)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>classtree3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CART 
+
+177576 samples
+     7 predictor
+     2 classes: 'No', 'Pre.Yes' 
+
+Pre-processing: centered (22), scaled (22) 
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 142061, 142061, 142061, 142060, 142061 
+Resampling results across tuning parameters:
+
+  cp    logLoss  
+  0.00  0.3805030
+  0.01  0.4032255
+  0.02  0.4032255
+  0.03  0.4032255
+  0.04  0.4032255
+  0.05  0.4032255
+  0.06  0.4032255
+  0.07  0.4032255
+  0.08  0.4032255
+  0.09  0.4032255
+  0.10  0.4032255
+
+logLoss was used to select the optimal model using the smallest value.
+The final value used for the model was cp = 0.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#visualizing the three models next to each other to find the best level of cp</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">"CP: 0-0.1, 0.01, "</span>, classtree<span class="sc">$</span>results[<span class="dv">1</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"CP: 0-0.5, 0.05"</span>, classtree2<span class="sc">$</span>results[<span class="dv">1</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"CP: 0-1, 0.1"</span>, classtree3<span class="sc">$</span>results[<span class="dv">1</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)])</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>      )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                         logLoss   logLossSD  
+[1,] "CP: 0-0.1, 0.01, " 0.3795635 0.006394978
+[2,] "CP: 0-0.5, 0.05"   0.383535  0.004933967
+[3,] "CP: 0-1, 0.1"      0.380503  0.008508897</code></pre>
 </div>
 </div>
 </section>
@@ -471,23 +486,23 @@ The final value used for the model was cp = 0.</code></pre>
 <p>A model where when building decision trees, each time a split is made, the algorithm cannot consider the true number of predictors and instead uses a subsection of the full set. This prevents one strong predictor as being made the main one and gives other predictor variables to play an equal role. As the data in this set has a strong predictor as seen in the EDA, random forset is a good choice of a model.</p>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setting up a seed for reproducing results</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">128</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#setting up mtry sequence with 11 as the number of predictors</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>mtry <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mtry =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>))</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#building the model with random forest model and training it on the train data set</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>randtree <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth, </span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> diabetes_model, </span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"rf"</span>,</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tuneGrid =</span> mtry,</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ntree =</span> <span class="dv">50</span>,</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">trControl =</span> trainctrl)</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>randtree </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setting up a seed for reproducing results</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">130</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#setting up mtry sequence with 11 as the number of predictors</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>mtry <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mtry =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>))</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#building the model with random forest model and training it on the train data set</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>randtree <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth, </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> diabetes_model, </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tuneGrid =</span> mtry,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ntree =</span> <span class="dv">50</span>,</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">trControl =</span> trainctrl)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>randtree </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Random Forest 
 
@@ -497,77 +512,179 @@ The final value used for the model was cp = 0.</code></pre>
 
 Pre-processing: centered (3), scaled (3) 
 Resampling: Cross-Validated (5 fold) 
-Summary of sample sizes: 202943, 202944, 202944, 202944, 202945 
+Summary of sample sizes: 202945, 202944, 202943, 202944, 202944 
 Resampling results across tuning parameters:
 
   mtry  logLoss 
-  1     4.811790
-  2     4.807151
-  3     4.806019
-  4     4.807501
-  5     4.806424
+  1     4.811912
+  2     4.808108
+  3     4.808099
+  4     4.807734
+  5     4.806371
 
 logLoss was used to select the optimal model using the smallest value.
-The final value used for the model was mtry = 3.</code></pre>
+The final value used for the model was mtry = 5.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#the model is completely unhelpful</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#the model is completely unhelpful</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setting up a seed for reproducing results</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">131</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#altering mtry</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>mtry2 <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mtry =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>))</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#repeating the model</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>randtree2 <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth, </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> diabetes_model, </span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tuneGrid =</span> mtry2,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ntree =</span> <span class="dv">75</span>,</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">trControl =</span> trainctrl)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>randtree2 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Random Forest 
+
+253680 samples
+     3 predictor
+     2 classes: 'No', 'Pre.Yes' 
+
+Pre-processing: centered (3), scaled (3) 
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 202944, 202943, 202944, 202944, 202945 
+Resampling results across tuning parameters:
+
+  mtry  logLoss 
+  1     4.811914
+  2     4.806610
+  3     4.805013
+  4     4.804940
+  5     4.805007
+  6     4.804786
+  7     4.805645
+
+logLoss was used to select the optimal model using the smallest value.
+The final value used for the model was mtry = 6.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setting up a seed for reproducing results</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">132</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#altering mtry</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>mtry3 <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mtry =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#repeating the model</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>randtree3 <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth, </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> diabetes_model, </span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tuneGrid =</span> mtry3,</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ntree =</span> <span class="dv">100</span>,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">trControl =</span> trainctrl)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>randtree3 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Random Forest 
+
+253680 samples
+     3 predictor
+     2 classes: 'No', 'Pre.Yes' 
+
+Pre-processing: centered (3), scaled (3) 
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 202944, 202944, 202944, 202944, 202944 
+Resampling results across tuning parameters:
+
+  mtry  logLoss 
+   1    4.811212
+   2    4.808026
+   3    4.805863
+   4    4.805138
+   5    4.804889
+   6    4.805136
+   7    4.805727
+   8    4.805573
+   9    4.806345
+  10    4.806105
+
+logLoss was used to select the optimal model using the smallest value.
+The final value used for the model was mtry = 5.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#visualizing the three models next to each other to find the best level of mtry and n-trees</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">"mtry: 1-5, n-tree: 50, "</span>, randtree<span class="sc">$</span>results[<span class="dv">1</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"mtry: 1-7, n-tree: 75"</span>, randtree2<span class="sc">$</span>results[<span class="dv">1</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"mtry: 1-10, n-tree: 100"</span>, randtree3<span class="sc">$</span>results[<span class="dv">1</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)])</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>      )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                               logLoss  logLossSD   
+[1,] "mtry: 1-5, n-tree: 50, " 4.811912 0.0005274459
+[2,] "mtry: 1-7, n-tree: 75"   4.811914 0.0004973519
+[3,] "mtry: 1-10, n-tree: 100" 4.811212 0.001375305 </code></pre>
+</div>
 </div>
 </section>
 </section>
 <section id="final-model-selection" class="level2">
 <h2 class="anchored" data-anchor-id="final-model-selection">Final Model Selection:</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model over the test data with probability as the output and building it into a data frame for use in the log loss function</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>predicted1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">obs =</span> diabetes_test<span class="sc">$</span>Diabetes_binary, <span class="co">#observation values taken from the test data set</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">pred =</span> <span class="fu">predict</span>(binom, diabetes_test), <span class="co">#the prediction function with raw values </span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">predict</span>(binom, diabetes_test, <span class="at">type =</span> <span class="st">"prob"</span>)) <span class="co">#probability prediction</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#calculating log loss</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>glm_test <span class="ot">&lt;-</span> <span class="fu">mnLogLoss</span>(predicted1, <span class="at">lev =</span> <span class="fu">levels</span>(diabetes_test<span class="sc">$</span>Diabetes_binary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model over the test data with probability as the output and building it into a data frame for use in the log loss function</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>predicted1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">obs =</span> diabetes_test<span class="sc">$</span>Diabetes_binary, <span class="co">#observation values taken from the test data set</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">pred =</span> <span class="fu">predict</span>(binom, diabetes_test), <span class="co">#the prediction function with raw values </span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">predict</span>(binom, diabetes_test, <span class="at">type =</span> <span class="st">"prob"</span>)) <span class="co">#probability prediction</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#calculating log loss</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>glm_test <span class="ot">&lt;-</span> <span class="fu">mnLogLoss</span>(predicted1, <span class="at">lev =</span> <span class="fu">levels</span>(diabetes_test<span class="sc">$</span>Diabetes_binary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#repeating with classification tree model </span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>predicted2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">obs =</span> diabetes_test<span class="sc">$</span>Diabetes_binary,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">pred =</span> <span class="fu">predict</span>(classtree, diabetes_test),</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">predict</span>(classtree, diabetes_test, <span class="at">type =</span> <span class="st">"prob"</span>))</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#calculating log loss</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>ct_test <span class="ot">&lt;-</span> <span class="fu">mnLogLoss</span>(predicted2, <span class="at">lev =</span> <span class="fu">levels</span>(diabetes_test<span class="sc">$</span>Diabetes_binary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#repeating with classification tree model </span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>predicted2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">obs =</span> diabetes_test<span class="sc">$</span>Diabetes_binary,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">pred =</span> <span class="fu">predict</span>(classtree, diabetes_test),</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">predict</span>(classtree, diabetes_test, <span class="at">type =</span> <span class="st">"prob"</span>))</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co">#calculating log loss</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>ct_test <span class="ot">&lt;-</span> <span class="fu">mnLogLoss</span>(predicted2, <span class="at">lev =</span> <span class="fu">levels</span>(diabetes_test<span class="sc">$</span>Diabetes_binary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#repeating with random forest</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>predicted3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">obs =</span> diabetes_test<span class="sc">$</span>Diabetes_binary,</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">pred =</span> <span class="fu">predict</span>(randtree, diabetes_test),</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">predict</span>(randtree, diabetes_test, <span class="at">type =</span> <span class="st">"prob"</span>))</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#calculating log loss</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>rf_test <span class="ot">&lt;-</span> <span class="fu">mnLogLoss</span>(predicted3, <span class="at">lev =</span> <span class="fu">levels</span>(diabetes_test<span class="sc">$</span>Diabetes_binary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#repeating with random forest</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>predicted3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">obs =</span> diabetes_test<span class="sc">$</span>Diabetes_binary,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">pred =</span> <span class="fu">predict</span>(randtree, diabetes_test),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">predict</span>(randtree3, diabetes_test, <span class="at">type =</span> <span class="st">"prob"</span>))</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co">#calculating log loss</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>rf_test <span class="ot">&lt;-</span> <span class="fu">mnLogLoss</span>(predicted3, <span class="at">lev =</span> <span class="fu">levels</span>(diabetes_test<span class="sc">$</span>Diabetes_binary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#viewing the summary to see how truly unbalanced the results from the random forest were and nearly all the values were predicted as `No`</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">predict</span>(randtree, diabetes_test, <span class="at">type =</span> <span class="st">"prob"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#viewing the summary to see how truly unbalanced the results from the random forest were and nearly all the values were predicted as `No`</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">predict</span>(randtree3, diabetes_test, <span class="at">type =</span> <span class="st">"prob"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       No            Pre.Yes        
- Min.   :0.4800   Min.   :0.00e+00  
+ Min.   :0.4600   Min.   :0.00e+00  
  1st Qu.:1.0000   1st Qu.:0.00e+00  
  Median :1.0000   Median :0.00e+00  
- Mean   :0.9999   Mean   :8.44e-05  
+ Mean   :0.9999   Mean   :7.79e-05  
  3rd Qu.:1.0000   3rd Qu.:0.00e+00  
- Max.   :1.0000   Max.   :5.20e-01  </code></pre>
+ Max.   :1.0000   Max.   :5.40e-01  </code></pre>
 </div>
 </div>
 </section>
 <section id="winning-model" class="level2">
 <h2 class="anchored" data-anchor-id="winning-model">Winning Model:</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">"Binomial"</span>, glm_test), <span class="co">#the best model by a single point </span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"Classification Tree"</span>, ct_test),</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"Random Forest"</span>, rf_test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">"Binomial"</span>, glm_test), <span class="co">#the best model by a single point </span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"Classification Tree"</span>, ct_test),</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"Random Forest"</span>, rf_test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                           logLoss            
 [1,] "Binomial"            "0.403094104655764"
 [2,] "Classification Tree" "0.378920628279181"
-[3,] "Random Forest"       "4.8265228605603"  </code></pre>
+[3,] "Random Forest"       "4.82538329812585" </code></pre>
 </div>
 </div>
 <blockquote class="blockquote">
