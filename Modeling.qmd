@@ -123,9 +123,6 @@ multinom <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth,
 
 #running the model
 multinom
-
-#plotting the model to see the effects of the weight decay as I haven't defined any 
-plot(multinom)
 ```
 
 #### Bayesian Generalized Linear Model:
