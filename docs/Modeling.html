@@ -506,7 +506,7 @@ The final value used for the model was cp = 0.</code></pre>
 <span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"ranger"</span>,</span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
 <span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tuneGrid =</span> mtry,</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ntree =</span> <span class="dv">50</span>,</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">num.tree =</span> <span class="dv">50</span>,</span>
 <span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">trControl =</span> trainctrl)</span>
 <span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model</span></span>
@@ -524,12 +524,12 @@ Summary of sample sizes: 142061, 142060, 142061, 142061, 142061
 Resampling results across tuning parameters:
 
   mtry  logLoss  
-  1     0.3885527
-  2     0.3819272
-  3     0.3799755
-  4     0.3793209
-  5     0.3791845
-  6     0.3792551
+  1     0.3887813
+  2     0.3819741
+  3     0.3801416
+  4     0.3794176
+  5     0.3792734
+  6     0.3793561
 
 Tuning parameter 'splitrule' was held constant at a value of extratrees
 
@@ -553,7 +553,7 @@ The final values used for the model were mtry = 5, splitrule = extratrees
 <span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"ranger"</span>,</span>
 <span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
 <span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tuneGrid =</span> mtry2,</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ntree =</span> <span class="dv">50</span>,</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">num.trees =</span> <span class="dv">50</span>,</span>
 <span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">trControl =</span> trainctrl)</span>
 <span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model</span></span>
@@ -571,12 +571,12 @@ Summary of sample sizes: 142061, 142061, 142061, 142060, 142061
 Resampling results across tuning parameters:
 
   mtry  logLoss  
-  1     0.3884638
-  2     0.3818999
-  3     0.3800075
-  4     0.3793678
-  5     0.3792473
-  6     0.3793626
+  1     0.3890460
+  2     0.3822443
+  3     0.3800725
+  4     0.3795083
+  5     0.3793284
+  6     0.3794866
 
 Tuning parameter 'splitrule' was held constant at a value of extratrees
 
@@ -600,7 +600,7 @@ The final values used for the model were mtry = 5, splitrule = extratrees
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"ranger"</span>,</span>
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
 <span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tuneGrid =</span> mtry3,</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ntree =</span> <span class="dv">50</span>,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">num.tree =</span> <span class="dv">50</span>,</span>
 <span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">trControl =</span> trainctrl)</span>
 <span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model</span></span>
@@ -618,12 +618,12 @@ Summary of sample sizes: 142061, 142061, 142060, 142061, 142061
 Resampling results across tuning parameters:
 
   mtry  logLoss  
-  1     0.3885868
-  2     0.3819370
-  3     0.3800090
-  4     0.3793882
-  5     0.3793003
-  6     0.3794912
+  1     0.3887589
+  2     0.3821981
+  3     0.3801687
+  4     0.3794845
+  5     0.3794127
+  6     0.3796045
 
 Tuning parameter 'splitrule' was held constant at a value of extratrees
 
@@ -641,9 +641,9 @@ The final values used for the model were mtry = 5, splitrule = extratrees
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>      )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                             logLoss   logLossSD   
-[1,] "mtry: 1-6, nodes: 100" 0.3791845 0.001367659 
-[2,] "mtry: 1-6, nodes: 75"  0.3792473 0.0005999624
-[3,] "mtry: 1-6, nodes: 50"  0.3793003 0.001136739 </code></pre>
+[1,] "mtry: 1-6, nodes: 100" 0.3792734 0.001384217 
+[2,] "mtry: 1-6, nodes: 75"  0.3793284 0.0006318615
+[3,] "mtry: 1-6, nodes: 50"  0.3794127 0.001152092 </code></pre>
 </div>
 </div>
 </section>
@@ -654,7 +654,7 @@ The final values used for the model were mtry = 5, splitrule = extratrees
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model over the test data with probability as the output and building it into a data frame for use in the log loss function</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>predicted1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">obs =</span> diabetes_test<span class="sc">$</span>Diabetes_binary, <span class="co">#observation values taken from the test data set</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">pred =</span> <span class="fu">predict</span>(bayes, diabetes_test), <span class="co">#the prediction function with raw values </span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">predict</span>(binom, diabetes_test, <span class="at">type =</span> <span class="st">"prob"</span>)) <span class="co">#probability prediction</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">predict</span>(bayes, diabetes_test, <span class="at">type =</span> <span class="st">"prob"</span>)) <span class="co">#probability prediction</span></span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#calculating log loss</span></span>
 <span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>glm_test <span class="ot">&lt;-</span> <span class="fu">mnLogLoss</span>(predicted1, <span class="at">lev =</span> <span class="fu">levels</span>(diabetes_test<span class="sc">$</span>Diabetes_binary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -686,9 +686,9 @@ The final values used for the model were mtry = 5, splitrule = extratrees
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"Random Forest"</span>, rf_test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                           logLoss            
-[1,] "Bayes"               "0.384544029443957"
+[1,] "Bayes"               "0.38454355369411" 
 [2,] "Classification Tree" "0.390821998409196"
-[3,] "Random Forest"       "0.383616241101218"</code></pre>
+[3,] "Random Forest"       "0.3836990660753"  </code></pre>
 </div>
 </div>
 <blockquote class="blockquote">

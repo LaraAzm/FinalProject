@@ -68,14 +68,13 @@ if(is.numeric(diabetes_data$Age)) diabetes_data$Age <- cut(diabetes_data$Age, 13
 
 if(is.numeric(diabetes_data$Education)) diabetes_data$Education <- cut(diabetes_data$Education, 6, labels = c("None", "Elementary", "Middle.School", "High.School", "Some.or.Technnical.College", "College.Graduate"))
 
-if(is.numeric(diabetes_data$Income)) diabetes_data$Income <- cut(diabetes_data$Income, 8, labels = c("<.$10,000", "<.$15,000", "<.$20,000", "<.$25,000", "<.$35,000", "<.$50,000", "<.$75,000", ">.$75,000"))
+if(is.numeric(diabetes_data$Income)) diabetes_data$Income <- cut(diabetes_data$Income, 8, labels = c("10000", "15000", "20000", "25000", "35000", "50000", "75000", "75000.plus"))
 ```
 
 ```{r}
 #saving the edited data set for future use
 write_csv(diabetes_data, "./data/diabetes_data.csv")
 ```
-
 
 ```{r}
 #getting an idea of the data set
@@ -157,6 +156,5 @@ ggplot(diabetes_data, aes(PhysHlth, fill = Diabetes_binary)) +
   scale_y_continuous(labels = function(y) format(y, scientific = FALSE))
 ```
   > When looking at the interactions, a vast majority of the population has healthcare, no heavy use of alcohol and costs are not an immediate concrern when going to the doctor. This majority also does not exibit any signs of diabetes. There are logical conclusions that could be drawn from this data alone, such as access to healthcare leading to healthier life styles which lower the chances of diabetes occuring in a population. When taking education and income into account, there is a alight increase in diabetes diagnosis amongst those who only have a high school education or some/technical education. Though a small spike, it is still significant in the larger scheme of things as that could be caused by other socio-economic factors. 
-
 
 [Model Fitting](Modeling.html)

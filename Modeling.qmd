@@ -200,7 +200,7 @@ randtree <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + Education + In
                  method = "ranger",
                  preProcess = c("center", "scale"),
                  tuneGrid = mtry,
-                 ntree = 50,
+                 num.tree = 50,
                  trControl = trainctrl)
 
 #running the model
@@ -221,7 +221,7 @@ randtree2 <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + Education + I
                  method = "ranger",
                  preProcess = c("center", "scale"),
                  tuneGrid = mtry2,
-                 ntree = 50,
+                 num.trees = 50,
                  trControl = trainctrl)
 
 #running the model
@@ -242,7 +242,7 @@ randtree3 <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + Education + I
                  method = "ranger",
                  preProcess = c("center", "scale"),
                  tuneGrid = mtry3,
-                 ntree = 50,
+                 num.tree = 50,
                  trControl = trainctrl)
 
 #running the model
@@ -262,7 +262,7 @@ rbind(c("mtry: 1-6, nodes: 100", randtree$results[5, ][c("logLoss", "logLossSD")
 #running the model over the test data with probability as the output and building it into a data frame for use in the log loss function
 predicted1 <- data.frame(obs = diabetes_test$Diabetes_binary, #observation values taken from the test data set
                         pred = predict(bayes, diabetes_test), #the prediction function with raw values 
-                        predict(binom, diabetes_test, type = "prob")) #probability prediction
+                        predict(bayes, diabetes_test, type = "prob")) #probability prediction
 
 #calculating log loss
 glm_test <- mnLogLoss(predicted1, lev = levels(diabetes_test$Diabetes_binary))

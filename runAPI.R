@@ -1,0 +1,7 @@
+#Run my final API
+
+library(plumber)
+r <- plumb("finalAPI.R")
+
+#run it on the port in the Dockerfile
+r$run(port=8000)

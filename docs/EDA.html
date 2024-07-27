@@ -231,14 +231,14 @@ dbl (22): Diabetes_binary, HighBP, HighChol, CholCheck, BMI, Smoker, Stroke,...
                                             Some.or.Technnical.College: 69910  
                                             College.Graduate          :107325  
                                                                                
-       Income         MentHlth         PhysHlth     
- &gt;.$75,000:90385   Min.   : 0.000   Min.   : 0.000  
- &lt;.$75,000:43219   1st Qu.: 0.000   1st Qu.: 0.000  
- &lt;.$50,000:36470   Median : 0.000   Median : 0.000  
- &lt;.$35,000:25883   Mean   : 3.185   Mean   : 4.242  
- &lt;.$25,000:20135   3rd Qu.: 2.000   3rd Qu.: 3.000  
- &lt;.$20,000:15994   Max.   :30.000   Max.   :30.000  
- (Other)  :21594                                    </code></pre>
+        Income         MentHlth         PhysHlth     
+ 75000.plus:90385   Min.   : 0.000   Min.   : 0.000  
+ 75000     :43219   1st Qu.: 0.000   1st Qu.: 0.000  
+ 50000     :36470   Median : 0.000   Median : 0.000  
+ 35000     :25883   Mean   : 3.185   Mean   : 4.242  
+ 25000     :20135   3rd Qu.: 2.000   3rd Qu.: 3.000  
+ 20000     :15994   Max.   :30.000   Max.   :30.000  
+ (Other)   :21594                                    </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -250,18 +250,18 @@ dbl (22): Diabetes_binary, HighBP, HighChol, CholCheck, BMI, Smoker, Stroke,...
 <pre><code># A tibble: 19,947 × 8
 # Groups:   Diabetes_binary, AnyHealthcare, NoDocbcCost, Education, Income,
 #   MentHlth [4,311]
-   Diabetes_binary AnyHealthcare NoDocbcCost Education Income  MentHlth PhysHlth
-   &lt;fct&gt;           &lt;fct&gt;         &lt;fct&gt;       &lt;fct&gt;     &lt;fct&gt;      &lt;dbl&gt;    &lt;dbl&gt;
- 1 No              No            No          None      &lt;.$10,…        2       30
- 2 No              No            No          None      &lt;.$15,…        0        0
- 3 No              No            No          None      &lt;.$15,…       30        0
- 4 No              No            No          None      &lt;.$20,…        0        0
- 5 No              No            No          None      &lt;.$20,…        3        7
- 6 No              No            No          None      &lt;.$20,…       30        3
- 7 No              No            No          None      &lt;.$20,…       30       30
- 8 No              No            No          None      &lt;.$25,…        0        5
- 9 No              No            No          None      &lt;.$35,…        0        0
-10 No              No            No          None      &lt;.$35,…        0       30
+   Diabetes_binary AnyHealthcare NoDocbcCost Education Income MentHlth PhysHlth
+   &lt;fct&gt;           &lt;fct&gt;         &lt;fct&gt;       &lt;fct&gt;     &lt;fct&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+ 1 No              No            No          None      10000         2       30
+ 2 No              No            No          None      15000         0        0
+ 3 No              No            No          None      15000        30        0
+ 4 No              No            No          None      20000         0        0
+ 5 No              No            No          None      20000         3        7
+ 6 No              No            No          None      20000        30        3
+ 7 No              No            No          None      20000        30       30
+ 8 No              No            No          None      25000         0        5
+ 9 No              No            No          None      35000         0        0
+10 No              No            No          None      35000         0       30
 # ℹ 19,937 more rows
 # ℹ 1 more variable: n &lt;int&gt;</code></pre>
 </div>
