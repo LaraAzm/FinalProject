@@ -22,7 +22,7 @@ library(scales)
 ## Data:
 ```{r}
 #reading in the csv 
-diabetes_data <- read_csv("./data/diabetes_binary_health_indicators_BRFSS2015.csv")
+diabetes_data <- read_csv("./data/diabetes_binary_health_indicators_BRFSS2015.csv", lazy = FALSE)
 ```
 
 ```{r}
@@ -32,52 +32,64 @@ sum(is.na(diabetes_data))
 
 ```{r echo = FALSE}
 #changing variables to factor with valid levels; added the if statements to prevent the code from not running when the columns were already changed
-if(is.numeric(diabetes_data$Diabetes_binary)) diabetes_data$Diabetes_binary <- cut(diabetes_data$Diabetes_binary, 2, labels = c("No", "Pre/Yes"))
+if(is.numeric(diabetes_data$Diabetes_binary)) diabetes_data$Diabetes_binary <- cut(diabetes_data$Diabetes_binary, 2, labels = c("No", "Pre.Yes"))
 
-if(is.numeric(diabetes_data$HighBP)) diabetes_data$HighBP <- cut(diabetes_data$HighBP, 2, labels = c("No HPB", "Yes HBP"))
+if(is.numeric(diabetes_data$HighBP)) diabetes_data$HighBP <- cut(diabetes_data$HighBP, 2, labels = c("No", "Yes"))
 
-if(is.numeric(diabetes_data$HighChol)) diabetes_data$HighChol <- cut(diabetes_data$HighChol, 2, labels = c("No HiC", "Yes HiC"))
+if(is.numeric(diabetes_data$HighChol)) diabetes_data$HighChol <- cut(diabetes_data$HighChol, 2, labels = c("No", "Yes"))
 
-if(is.numeric(diabetes_data$CholCheck)) diabetes_data$CholCheck <- cut(diabetes_data$CholCheck, 2, labels = c("No CC", "Yes CC"))
+if(is.numeric(diabetes_data$CholCheck)) diabetes_data$CholCheck <- cut(diabetes_data$CholCheck, 2, labels = c("No", "Yes"))
 
-if(is.numeric(diabetes_data$Smoker)) diabetes_data$Smoker <- cut(diabetes_data$Smoker, 2, labels = c("No Sm", "Yes Sm"))
+if(is.numeric(diabetes_data$Smoker)) diabetes_data$Smoker <- cut(diabetes_data$Smoker, 2, labels = c("No", "Yes"))
 
-if(is.numeric(diabetes_data$Stroke)) diabetes_data$Stroke <- cut(diabetes_data$Stroke, 2, labels = c("No St", "Yes St"))
+if(is.numeric(diabetes_data$Stroke)) diabetes_data$Stroke <- cut(diabetes_data$Stroke, 2, labels = c("No", "Yes"))
 
-if(is.numeric(diabetes_data$HeartDiseaseorAttack)) diabetes_data$HeartDiseaseorAttack <- cut(diabetes_data$HeartDiseaseorAttack, 2, labels = c("No HD", "Yes HD"))
+if(is.numeric(diabetes_data$HeartDiseaseorAttack)) diabetes_data$HeartDiseaseorAttack <- cut(diabetes_data$HeartDiseaseorAttack, 2, labels = c("No", "Yes"))
 
-if(is.numeric(diabetes_data$PhysActivity)) diabetes_data$PhysActivity <- cut(diabetes_data$PhysActivity, 2, labels = c("No Phys", "Yes Phys"))
+if(is.numeric(diabetes_data$PhysActivity)) diabetes_data$PhysActivity <- cut(diabetes_data$PhysActivity, 2, labels = c("No", "Yes"))
 
-if(is.numeric(diabetes_data$Fruits)) diabetes_data$Fruits <- cut(diabetes_data$Fruits, 2, labels = c("No Fr", "Yes Fr"))
+if(is.numeric(diabetes_data$Fruits)) diabetes_data$Fruits <- cut(diabetes_data$Fruits, 2, labels = c("No", "Yes"))
 
-if(is.numeric(diabetes_data$Veggies)) diabetes_data$Veggies <- cut(diabetes_data$Veggies, 2, labels = c("No Veg", "Yes Veg"))
+if(is.numeric(diabetes_data$Veggies)) diabetes_data$Veggies <- cut(diabetes_data$Veggies, 2, labels = c("No", "Yes"))
 
-if(is.numeric(diabetes_data$HvyAlcoholConsump)) diabetes_data$HvyAlcoholConsump <- cut(diabetes_data$HvyAlcoholConsump, 2, labels = c("No AC", "Yes Ac"))
+if(is.numeric(diabetes_data$HvyAlcoholConsump)) diabetes_data$HvyAlcoholConsump <- cut(diabetes_data$HvyAlcoholConsump, 2, labels = c("No", "Yes"))
 
-if(is.numeric(diabetes_data$NoDocbcCost)) diabetes_data$NoDocbcCost <- cut(diabetes_data$NoDocbcCost, 2, labels = c("No Doc", "Yes Doc"))  
+if(is.numeric(diabetes_data$NoDocbcCost)) diabetes_data$NoDocbcCost <- cut(diabetes_data$NoDocbcCost, 2, labels = c("No", "Yes"))  
 
-if(is.numeric(diabetes_data$AnyHealthcare)) diabetes_data$AnyHealthcare <- cut(diabetes_data$AnyHealthcare, 2, labels = c("No HC", "Yes HC"))    
+if(is.numeric(diabetes_data$AnyHealthcare)) diabetes_data$AnyHealthcare <- cut(diabetes_data$AnyHealthcare, 2, labels = c("No", "Yes"))    
 
-if(is.numeric(diabetes_data$GenHlth)) diabetes_data$GenHlth <- cut(diabetes_data$GenHlth, 5, labels = c("Excellent", "Very good", "Good", "Fair", "Poor"))
+if(is.numeric(diabetes_data$GenHlth)) diabetes_data$GenHlth <- cut(diabetes_data$GenHlth, 5, labels = c("Excellent", "Very.good", "Good", "Fair", "Poor"))
 
-if(is.numeric(diabetes_data$DiffWalk)) diabetes_data$DiffWalk <- cut(diabetes_data$DiffWalk, 2, labels = c("No Diff", "Yes Diff"))
+if(is.numeric(diabetes_data$DiffWalk)) diabetes_data$DiffWalk <- cut(diabetes_data$DiffWalk, 2, labels = c("No", "Yes"))
 
 if(is.numeric(diabetes_data$Sex)) diabetes_data$Sex <- cut(diabetes_data$Sex, 2, labels = c("Male", "Female"))
 
-if(is.numeric(diabetes_data$Age)) diabetes_data$Age <- cut(diabetes_data$Age, 13, labels = c("18 to 24", "25 to 29", "30 to 34", "35 to 39", "40 to 44", "45 to 49", "50 to 54", "55 to 59", "60 to 64", "65 to 69", "70 to 74", "75 to 79", "80 or older"))
+if(is.numeric(diabetes_data$Age)) diabetes_data$Age <- cut(diabetes_data$Age, 13, labels = c("18.to.24", "25.to.29", "30.to.34", "35.to.39", "40.to.44", "45.to.49", "50.to.54", "55.to.59", "60.to.64", "65.to.69", "70.to.74", "75.to.79", "80.or.older"))
 
-if(is.numeric(diabetes_data$Education)) diabetes_data$Education <- cut(diabetes_data$Education, 6, labels = c("None", "Elementary", "Middle School", "High School", "Some/Technnical College", "College Graduate"))
+if(is.numeric(diabetes_data$Education)) diabetes_data$Education <- cut(diabetes_data$Education, 6, labels = c("None", "Elementary", "Middle.School", "High.School", "Some.or.Technnical.College", "College.Graduate"))
 
-if(is.numeric(diabetes_data$Income)) diabetes_data$Income <- cut(diabetes_data$Income, 8, labels = c("< $10,000", "< $15,000", "< $20,000", "< $25,000", "< $35,000", "< $50,000", "< $75,000", "> $75,000"))
+if(is.numeric(diabetes_data$Income)) diabetes_data$Income <- cut(diabetes_data$Income, 8, labels = c("<.$10,000", "<.$15,000", "<.$20,000", "<.$25,000", "<.$35,000", "<.$50,000", "<.$75,000", ">.$75,000"))
 ```
+
+```{r}
+#saving the edited data set for future use
+write_csv(diabetes_data, "./data/diabetes_data.csv")
+```
+
 
 ```{r}
 #getting an idea of the data set
 diabetes_data
 ```
 
-
 ## Summaries:
+```{r}
+#getting summary of selected variables, will be useful later on
+selected_cols <- c("Diabetes_binary", "AnyHealthcare", "NoDocbcCost", "MentHlth")
+
+summary(diabetes_data[selected_cols])
+```
+
 ```{r}
 #getting an idea of the count of different levels, this can also provide a general idea of how likely it is for someone to have diabetes under certain conditions; this is further shown through the plots
 diabetes_data |>
@@ -124,4 +136,4 @@ ggplot(diabetes_data, aes(MentHlth, fill = Diabetes_binary)) +
   scale_y_continuous(labels = function(y) format(y, scientific = FALSE))
 ```
 
-[Model Fitting](docs/Modeling.html)
+[Model Fitting](Modeling.html)

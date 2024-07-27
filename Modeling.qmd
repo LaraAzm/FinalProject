@@ -8,7 +8,6 @@ format: html
 
   > The base data set for this workthrough is a binary data set of survey responses to a CDC behavioral and chronic disease surveillance study done for diabetes. I have chosen `mental health`, `healthcare`, `ability/inability to see a physicians due to the cost of the visit` and `difficulty walking` as my variables. The response variable is the `presence of prediabetes or diabetes`. Here, I will be modeling using log loss. Log loss is the negative of log of likelihood, a function denoting the likelihood a model believes the real observed values could occur. Accuracy can only be applied to classification tasks and while easier to interpret, higher number means higher accuracy, its limitations mean that it cannot be applied to regression tasks. Log loss is best used for binary classifications because of the connection between the likelihood function and if the response variable is encoded as 0 or 1. 
 
-
 ## Initial Library Read-in:
 ```{r, warning = FALSE, message = FALSE}
 library(readr)
@@ -19,57 +18,22 @@ library(ggplot2)
 library(caret)
 library(randomForest)
 library(Metrics)
+library(ranger)
 ```
 
 ## Data:
 ```{r}
 #reading in the csv 
-diabetes_model <- read_csv("./data/diabetes_binary_health_indicators_BRFSS2015.csv")
-```
-
-```{r echo = FALSE}
-#changing variables to factor with valid levels; added the if statements to prevent the code from not running when the columns were already changed
-if(is.numeric(diabetes_model$Diabetes_binary)) diabetes_model$Diabetes_binary <- cut(diabetes_model$Diabetes_binary, 2, labels = c("No", "Pre.Yes"))
-
-if(is.numeric(diabetes_model$HighBP)) diabetes_model$HighBP <- cut(diabetes_model$HighBP, 2, labels = c("No", "Yes"))
-
-if(is.numeric(diabetes_model$HighChol)) diabetes_model$HighChol <- cut(diabetes_model$HighChol, 2, labels = c("No", "Yes"))
-
-if(is.numeric(diabetes_model$CholCheck)) diabetes_model$CholCheck <- cut(diabetes_model$CholCheck, 2, labels = c("No", "Yes"))
-
-if(is.numeric(diabetes_model$Smoker)) diabetes_model$Smoker <- cut(diabetes_model$Smoker, 2, labels = c("No", "Yes"))
-
-if(is.numeric(diabetes_model$Stroke)) diabetes_model$Stroke <- cut(diabetes_model$Stroke, 2, labels = c("No", "Yes"))
-
-if(is.numeric(diabetes_model$HeartDiseaseorAttack)) diabetes_model$HeartDiseaseorAttack <- cut(diabetes_model$HeartDiseaseorAttack, 2, labels = c("No", "Yes"))
-
-if(is.numeric(diabetes_model$PhysActivity)) diabetes_model$PhysActivity <- cut(diabetes_model$PhysActivity, 2, labels = c("No", "Yes"))
-
-if(is.numeric(diabetes_model$Fruits)) diabetes_model$Fruits <- cut(diabetes_model$Fruits, 2, labels = c("No", "Yes"))
-
-if(is.numeric(diabetes_model$Veggies)) diabetes_model$Veggies <- cut(diabetes_model$Veggies, 2, labels = c("No", "Yes"))
-
-if(is.numeric(diabetes_model$HvyAlcoholConsump)) diabetes_model$HvyAlcoholConsump <- cut(diabetes_model$HvyAlcoholConsump, 2, labels = c("No", "Yes"))
-
-if(is.numeric(diabetes_model$NoDocbcCost)) diabetes_model$NoDocbcCost <- cut(diabetes_model$NoDocbcCost, 2, labels = c("No", "Yes"))  
-
-if(is.numeric(diabetes_model$AnyHealthcare)) diabetes_model$AnyHealthcare <- cut(diabetes_model$AnyHealthcare, 2, labels = c("No", "Yes"))    
-
-if(is.numeric(diabetes_model$GenHlth)) diabetes_model$GenHlth <- cut(diabetes_model$GenHlth, 5, labels = c("Excellent", "Very.good", "Good", "Fair", "Poor"))
-
-if(is.numeric(diabetes_model$DiffWalk)) diabetes_model$DiffWalk <- cut(diabetes_model$DiffWalk, 2, labels = c("No", "Yes"))
-
-if(is.numeric(diabetes_model$Sex)) diabetes_model$Sex <- cut(diabetes_model$Sex, 2, labels = c("Male", "Female"))
-
-if(is.numeric(diabetes_model$Age)) diabetes_model$Age <- cut(diabetes_model$Age, 13, labels = c("18.to.24", "25.to.29", "30.to.34", "35.to.39", "40.to.44", "45.to.49", "50.to.54", "55.to.59", "60.to.64", "65.to.69", "70.to.74", "75.to.79", "80+"))
-
-if(is.numeric(diabetes_model$Education)) diabetes_model$Education <- cut(diabetes_model$Education, 6, labels = c("None", "Elementary", "Middle School", "HighSchool", "TechnnicalCollege", "CollegeGraduate"))
-
-if(is.numeric(diabetes_model$Income)) diabetes_model$Income <- cut(diabetes_model$Income, 8, labels = c("< $10,000", "< $15,000", "< $20,000", "< $25,000", "< $35,000", "< $50,000", "< $75,000", "> $75,000"))    
+diabetes_model <- read_csv("./data/diabetes_data.csv")
 ```
 
 ```{r}
-#setting seed for reproducability
+diabetes_model <- diabetes_model |>
+  mutate(across(where(is_character), as_factor))
+```
+
+```{r}
+#setting seed for reproducibility
 set.seed(123)
 
 #setting up to split the data into two for later use as training and testing 
@@ -227,33 +191,35 @@ rbind(c("CP: 0-0.1, 0.01, ", classtree$results[1, ][c("logLoss", "logLossSD")]),
 set.seed(130)
 
 #setting up mtry sequence with 11 as the number of predictors
-mtry <- expand.grid(mtry = seq(1:5))
+mtry <- expand.grid(splitrule="extratrees",
+                    min.node.size=100,
+                    mtry = seq(1:3))
 
 #building the model with random forest model and training it on the train data set
 randtree <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth, 
                  data = diabetes_model, 
-                 method = "rf",
+                 method = "ranger",
                  preProcess = c("center", "scale"),
                  tuneGrid = mtry,
                  ntree = 50,
                  trControl = trainctrl)
 
 #running the model
-randtree 
-#the model is completely unhelpful
+randtree
 ```
 
 ```{r warning = FALSE, message = FALSE}
 #setting up a seed for reproducing results
 set.seed(131)
 
-#altering mtry
-mtry2 <- expand.grid(mtry = seq(1:7))
+mtry2 <- expand.grid(splitrule="extratrees",
+                    min.node.size=100,
+                    mtry = seq(1:3))
 
 #repeating the model
 randtree2 <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth, 
                  data = diabetes_model, 
-                 method = "rf",
+                 method = "ranger",
                  preProcess = c("center", "scale"),
                  tuneGrid = mtry2,
                  ntree = 75,
@@ -268,12 +234,13 @@ randtree2
 set.seed(132)
 
 #altering mtry
-mtry3 <- expand.grid(mtry = seq(1:10))
-
+mtry3 <- expand.grid(splitrule="extratrees",
+                    min.node.size=100,
+                    mtry = seq(1:3))
 #repeating the model
 randtree3 <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth, 
                  data = diabetes_model, 
-                 method = "rf",
+                 method = "ranger",
                  preProcess = c("center", "scale"),
                  tuneGrid = mtry3,
                  ntree = 100,
@@ -282,14 +249,14 @@ randtree3 <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth,
 #running the model
 randtree3 
 ```
+
 ```{r}
 #visualizing the three models next to each other to find the best level of mtry and n-trees
-rbind(c("mtry: 1-5, n-tree: 50, ", randtree$results[1, ][c("logLoss", "logLossSD")]),
-      c("mtry: 1-7, n-tree: 75", randtree2$results[1, ][c("logLoss", "logLossSD")]),
-      c("mtry: 1-10, n-tree: 100", randtree3$results[1, ][c("logLoss", "logLossSD")])
+rbind(c("mtry: 1-5, n-tree: 50", randtree$results[2, ][c("logLoss", "logLossSD")]),
+      c("mtry: 1-7, n-tree: 75", randtree2$results[2, ][c("logLoss", "logLossSD")]),
+      c("mtry: 1-10, n-tree: 100", randtree3$results[2, ][c("logLoss", "logLossSD")])
       )
 ```
-
 
 ## Final Model Selection: 
 ```{r}
@@ -316,15 +283,10 @@ ct_test <- mnLogLoss(predicted2, lev = levels(diabetes_test$Diabetes_binary))
 #repeating with random forest
 predicted3 <- data.frame(obs = diabetes_test$Diabetes_binary,
                         pred = predict(randtree, diabetes_test),
-                        predict(randtree3, diabetes_test, type = "prob"))
+                        predict(randtree, diabetes_test, type = "prob"))
 
 #calculating log loss
 rf_test <- mnLogLoss(predicted3, lev = levels(diabetes_test$Diabetes_binary))
-```
-
-```{r}
-#viewing the summary to see how truly unbalanced the results from the random forest were and nearly all the values were predicted as `No`
-summary(predict(randtree3, diabetes_test, type = "prob"))
 ```
 
 ## Winning Model: 
@@ -333,4 +295,5 @@ rbind(c("Binomial", glm_test), #the best model by a single point
       c("Classification Tree", ct_test),
       c("Random Forest", rf_test))
 ```
-  > Through the lowest log loss was shown by the classification tree model, that was achieved by adding more than the chosen response variables to coax the model to give different values. The winning model in my opinion is the basic binomial generalized linear model as it showed the lowest log loss in the training models but also the lowest when using the test set. 
+
+  > Though the lowest log loss was shown by the classification tree model, that was achieved by adding more than the chosen response variables to coax the model to give different values. The winning model in my opinion is the random forest as it showed the lowest log loss in the training models but also the lowest when using the test set. 
