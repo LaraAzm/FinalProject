@@ -62,8 +62,8 @@ trainctrl <- trainControl(method = "cv",
 #setting up a seed for reproducing results
 set.seed(124)
 
-binom <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth,
-                  data = diabetes_model,
+binom <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + Education + Income + MentHlth + PhysHlth,
+                  data = diabetes_train,
                   method = "glm",
                   family = binomial,
                   preProcess = c("center", "scale"),
@@ -78,8 +78,8 @@ binom
 #setting up a seed for reproducing results
 set.seed(125)
 
-multinom <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth,
-              data = diabetes_model,
+multinom <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + Education + Income + MentHlth + PhysHlth,
+              data = diabetes_train,
               method = "multinom",
               trControl = trainctrl,
               preProcess=c("center","scale"),
@@ -94,8 +94,8 @@ multinom
 #setting up a seed for reproducing results
 set.seed(126)
 
-bayes <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth,
-              data = diabetes_model,
+bayes <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + Education + Income + MentHlth + PhysHlth,
+              data = diabetes_train,
               method = "bayesglm",
               trControl = trainctrl,
               preProcess=c("center","scale"),
@@ -108,8 +108,8 @@ bayes
 ```{r}
 #visualizing the three models next to each other to find the best one
 rbind(c("Binomial", binom$results[c("logLoss", "logLossSD")]), #the best model by a single point 
-      c("Multinomial", multinom$results[1, ][c("logLoss", "logLossSD")]),
-      c("Bayesian GLM", bayes$results[c("logLoss", "logLossSD")])
+      c("Multinomial", multinom$results[3, ][c("logLoss", "logLossSD")]),
+      c("Bayesian GLM", bayes$results[c("logLoss", "logLossSD")]) #winning model by 0.000003 of a point
       )
 ```
 
@@ -124,7 +124,7 @@ set.seed(127)
 cp <- expand.grid(cp = seq(0, 0.1, 0.01))
 
 #unfortunately, the resulting tree model needed additional variables to get a better fit
-classtree <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth + Age + BMI + PhysHlth + Education, 
+classtree <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + Education + Income + MentHlth + PhysHlth, 
               data = diabetes_train,
               method = "rpart",
               metric = "logLoss",
@@ -141,9 +141,9 @@ classtree
 set.seed(128)
 
 #altering the tuning parameter
-cp2 <- expand.grid(cp = seq(0, 0.5, 0.05))
+cp2 <- expand.grid(cp = seq(0, 0.05, 0.005))
 
-classtree2 <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth + Age + BMI + PhysHlth + Education, 
+classtree2 <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + Education + Income + MentHlth + PhysHlth, 
               data = diabetes_train,
               method = "rpart",
               metric = "logLoss",
@@ -160,9 +160,9 @@ classtree2
 set.seed(129)
 
 #altering the tuning parameter
-cp3 <- expand.grid(cp = seq(0, 1, 0.1))
+cp3 <- expand.grid(cp = seq(0.75, 1, 0.01))
 
-classtree3 <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth + Age + BMI + PhysHlth + Education, 
+classtree3 <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + Education + Income + MentHlth + PhysHlth, 
               data = diabetes_train,
               method = "rpart",
               metric = "logLoss",
@@ -176,12 +176,11 @@ classtree3
 
 ```{r}
 #visualizing the three models next to each other to find the best level of cp
-rbind(c("CP: 0-0.1, 0.01, ", classtree$results[1, ][c("logLoss", "logLossSD")]),
-      c("CP: 0-0.5, 0.05", classtree2$results[1, ][c("logLoss", "logLossSD")]),
+rbind(c("CP: 0-0.1, 0.01", classtree$results[1, ][c("logLoss", "logLossSD")]),
+      c("CP: 0-0.05, 0.005", classtree2$results[1, ][c("logLoss", "logLossSD")]),
       c("CP: 0-1, 0.1", classtree3$results[1, ][c("logLoss", "logLossSD")])
       )
 ```
-
 
 ### Random Forest:
   > A model where when building decision trees, each time a split is made, the algorithm cannot consider the true number of predictors and instead uses a subsection of the full set. This prevents one strong predictor as being made the main one and gives other predictor variables to play an equal role. As the data in this set has a strong predictor as seen in the EDA, random forset is a good choice of a model. 
@@ -193,11 +192,11 @@ set.seed(130)
 #setting up mtry sequence with 11 as the number of predictors
 mtry <- expand.grid(splitrule="extratrees",
                     min.node.size=100,
-                    mtry = seq(1:3))
+                    mtry = seq(1:6))
 
 #building the model with random forest model and training it on the train data set
-randtree <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth, 
-                 data = diabetes_model, 
+randtree <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + Education + Income + MentHlth + PhysHlth, 
+                 data = diabetes_train, 
                  method = "ranger",
                  preProcess = c("center", "scale"),
                  tuneGrid = mtry,
@@ -213,16 +212,16 @@ randtree
 set.seed(131)
 
 mtry2 <- expand.grid(splitrule="extratrees",
-                    min.node.size=100,
-                    mtry = seq(1:3))
+                    min.node.size=75,
+                    mtry = seq(1:6))
 
 #repeating the model
-randtree2 <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth, 
-                 data = diabetes_model, 
+randtree2 <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + Education + Income + MentHlth + PhysHlth, 
+                 data = diabetes_train, 
                  method = "ranger",
                  preProcess = c("center", "scale"),
                  tuneGrid = mtry2,
-                 ntree = 75,
+                 ntree = 50,
                  trControl = trainctrl)
 
 #running the model
@@ -235,15 +234,15 @@ set.seed(132)
 
 #altering mtry
 mtry3 <- expand.grid(splitrule="extratrees",
-                    min.node.size=100,
-                    mtry = seq(1:3))
+                    min.node.size=50,
+                    mtry = seq(1:6))
 #repeating the model
-randtree3 <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + MentHlth, 
-                 data = diabetes_model, 
+randtree3 <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + Education + Income + MentHlth + PhysHlth, 
+                 data = diabetes_train, 
                  method = "ranger",
                  preProcess = c("center", "scale"),
                  tuneGrid = mtry3,
-                 ntree = 100,
+                 ntree = 50,
                  trControl = trainctrl)
 
 #running the model
@@ -252,9 +251,9 @@ randtree3
 
 ```{r}
 #visualizing the three models next to each other to find the best level of mtry and n-trees
-rbind(c("mtry: 1-5, n-tree: 50", randtree$results[2, ][c("logLoss", "logLossSD")]),
-      c("mtry: 1-7, n-tree: 75", randtree2$results[2, ][c("logLoss", "logLossSD")]),
-      c("mtry: 1-10, n-tree: 100", randtree3$results[2, ][c("logLoss", "logLossSD")])
+rbind(c("mtry: 1-6, nodes: 100", randtree$results[5, ][c("logLoss", "logLossSD")]),
+      c("mtry: 1-6, nodes: 75", randtree2$results[5, ][c("logLoss", "logLossSD")]),
+      c("mtry: 1-6, nodes: 50", randtree3$results[5, ][c("logLoss", "logLossSD")])
       )
 ```
 
@@ -262,7 +261,7 @@ rbind(c("mtry: 1-5, n-tree: 50", randtree$results[2, ][c("logLoss", "logLossSD")
 ```{r}
 #running the model over the test data with probability as the output and building it into a data frame for use in the log loss function
 predicted1 <- data.frame(obs = diabetes_test$Diabetes_binary, #observation values taken from the test data set
-                        pred = predict(binom, diabetes_test), #the prediction function with raw values 
+                        pred = predict(bayes, diabetes_test), #the prediction function with raw values 
                         predict(binom, diabetes_test, type = "prob")) #probability prediction
 
 #calculating log loss
@@ -291,9 +290,9 @@ rf_test <- mnLogLoss(predicted3, lev = levels(diabetes_test$Diabetes_binary))
 
 ## Winning Model: 
 ```{r}
-rbind(c("Binomial", glm_test), #the best model by a single point 
+rbind(c("Bayes", glm_test), #the best model by a single point 
       c("Classification Tree", ct_test),
       c("Random Forest", rf_test))
 ```
 
-  > Though the lowest log loss was shown by the classification tree model, that was achieved by adding more than the chosen response variables to coax the model to give different values. The winning model in my opinion is the random forest as it showed the lowest log loss in the training models but also the lowest when using the test set. 
+  > The winning model in my opinion is the random forest as it showed the lowest log loss in the training models but also the lowest when using the test set. 

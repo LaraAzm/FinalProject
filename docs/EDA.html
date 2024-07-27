@@ -149,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction:</h2>
 <blockquote class="blockquote">
-<p>The base data set for this workthrough is a binary data set of survey responses to a CDC behavioral and chronic disease surveillance study done for diabetes. I have chosen <code>mental health</code>, <code>healthcare</code> and <code>ability/inability to see a physicians due to the cost of the visit</code>. The response variable is the <code>presence of prediabetes or diabetes</code>. The purpose of this EDA is to get a general idea of how the chosen variables effect levels of diabetes. Ultimately, I will be using these variables to model the likelyhood of diabetes occuring at different levels of variables.</p>
+<p>The base data set for this workthrough is a binary data set of survey responses to a CDC behavioral and chronic disease surveillance study done for diabetes. I have chosen <code>heavy alchohol consumption</code>, <code>healthcare</code>, <code>ability/inability to see a physicians due to the cost of the visit</code>, <code>education</code> and <code>income</code> as the categorical variables and <code>mental</code> and <code>physical</code> health as the continuous variables. The response variable is the <code>presence of prediabetes or diabetes</code>. The purpose of this EDA is to get a general idea of how the chosen variables effect levels of diabetes. Ultimately, I will be using these variables to model the likelyhood of diabetes occuring at different levels of variables.</p>
 </blockquote>
 </section>
 <section id="initial-library-read-in" class="level2">
@@ -205,7 +205,7 @@ dbl (22): Diabetes_binary, HighBP, HighChol, CholCheck, BMI, Smoker, Stroke,...
  6 No              Yes    Yes      Yes          25 Yes    No    
  7 No              Yes    No       Yes          30 Yes    No    
  8 No              Yes    Yes      Yes          25 Yes    No    
- 9 Pre.Yes         Yes    Yes      Yes          30 Yes    No    
+ 9 Yes             Yes    Yes      Yes          30 Yes    No    
 10 No              No     No       Yes          24 No     No    
 # ℹ 253,670 more rows
 # ℹ 15 more variables: HeartDiseaseorAttack &lt;fct&gt;, PhysActivity &lt;fct&gt;,
@@ -219,51 +219,61 @@ dbl (22): Diabetes_binary, HighBP, HighChol, CholCheck, BMI, Smoker, Stroke,...
 <h2 class="anchored" data-anchor-id="summaries">Summaries:</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#getting summary of selected variables, will be useful later on</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>selected_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Diabetes_binary"</span>, <span class="st">"AnyHealthcare"</span>, <span class="st">"NoDocbcCost"</span>, <span class="st">"MentHlth"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>selected_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Diabetes_binary"</span>, <span class="st">"AnyHealthcare"</span>, <span class="st">"NoDocbcCost"</span>, <span class="st">"Education"</span>, <span class="st">"Income"</span>, <span class="st">"MentHlth"</span>, <span class="st">"PhysHlth"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(diabetes_data[selected_cols])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> Diabetes_binary  AnyHealthcare NoDocbcCost     MentHlth     
- No     :218334   No : 12417    No :232326   Min.   : 0.000  
- Pre.Yes: 35346   Yes:241263    Yes: 21354   1st Qu.: 0.000  
-                                             Median : 0.000  
-                                             Mean   : 3.185  
-                                             3rd Qu.: 2.000  
-                                             Max.   :30.000  </code></pre>
+<pre><code> Diabetes_binary AnyHealthcare NoDocbcCost                       Education     
+ No :218334      No : 12417    No :232326   None                      :   174  
+ Yes: 35346      Yes:241263    Yes: 21354   Elementary                :  4043  
+                                            Middle.School             :  9478  
+                                            High.School               : 62750  
+                                            Some.or.Technnical.College: 69910  
+                                            College.Graduate          :107325  
+                                                                               
+       Income         MentHlth         PhysHlth     
+ &gt;.$75,000:90385   Min.   : 0.000   Min.   : 0.000  
+ &lt;.$75,000:43219   1st Qu.: 0.000   1st Qu.: 0.000  
+ &lt;.$50,000:36470   Median : 0.000   Median : 0.000  
+ &lt;.$35,000:25883   Mean   : 3.185   Mean   : 4.242  
+ &lt;.$25,000:20135   3rd Qu.: 2.000   3rd Qu.: 3.000  
+ &lt;.$20,000:15994   Max.   :30.000   Max.   :30.000  
+ (Other)  :21594                                    </code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#getting an idea of the count of different levels, this can also provide a general idea of how likely it is for someone to have diabetes under certain conditions; this is further shown through the plots</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>diabetes_data <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Diabetes_binary, MentHlth, AnyHealthcare, NoDocbcCost) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Diabetes_binary, AnyHealthcare, NoDocbcCost, Education, Income, MentHlth, PhysHlth) <span class="sc">|&gt;</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tally</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 223 × 5
-# Groups:   Diabetes_binary, MentHlth, AnyHealthcare [115]
-   Diabetes_binary MentHlth AnyHealthcare NoDocbcCost      n
-   &lt;fct&gt;              &lt;dbl&gt; &lt;fct&gt;         &lt;fct&gt;        &lt;int&gt;
- 1 No                     0 No            No            4935
- 2 No                     0 No            Yes           1834
- 3 No                     0 Yes           No          139351
- 4 No                     0 Yes           Yes           6157
- 5 No                     1 No            No             229
- 6 No                     1 No            Yes            129
- 7 No                     1 Yes           No            6882
- 8 No                     1 Yes           Yes            486
- 9 No                     2 No            No             363
-10 No                     2 No            Yes            192
-# ℹ 213 more rows</code></pre>
+<pre><code># A tibble: 19,947 × 8
+# Groups:   Diabetes_binary, AnyHealthcare, NoDocbcCost, Education, Income,
+#   MentHlth [4,311]
+   Diabetes_binary AnyHealthcare NoDocbcCost Education Income  MentHlth PhysHlth
+   &lt;fct&gt;           &lt;fct&gt;         &lt;fct&gt;       &lt;fct&gt;     &lt;fct&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+ 1 No              No            No          None      &lt;.$10,…        2       30
+ 2 No              No            No          None      &lt;.$15,…        0        0
+ 3 No              No            No          None      &lt;.$15,…       30        0
+ 4 No              No            No          None      &lt;.$20,…        0        0
+ 5 No              No            No          None      &lt;.$20,…        3        7
+ 6 No              No            No          None      &lt;.$20,…       30        3
+ 7 No              No            No          None      &lt;.$20,…       30       30
+ 8 No              No            No          None      &lt;.$25,…        0        5
+ 9 No              No            No          None      &lt;.$35,…        0        0
+10 No              No            No          None      &lt;.$35,…        0       30
+# ℹ 19,937 more rows
+# ℹ 1 more variable: n &lt;int&gt;</code></pre>
 </div>
 </div>
+<blockquote class="blockquote">
+<p>When looking at the interactions, a vast majority of the population has healthcare, no heavy use of alcohol and costs are not an immediate concrern when going to the doctor. This majority also does not exibit any signs of diabetes. There are logical conclusions that could be drawn from this data alone, such as access to healthcare leading to healthier life styles which lower the chances of diabetes occuring in a population. However, these are just raw numbers. Further analysis would be needed to examine the likelyhood of such an occurance.</p>
+</blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#looking at the interactions between the different categorical variables and the response variable </span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(diabetes_data, <span class="fu">aes</span>(Diabetes_binary, <span class="at">fill =</span> <span class="fu">interaction</span>(AnyHealthcare, NoDocbcCost))) <span class="sc">+</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(diabetes_data, <span class="fu">aes</span>(Diabetes_binary, <span class="at">fill =</span> <span class="fu">interaction</span>(DiffWalk, NoDocbcCost))) <span class="sc">+</span> </span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">multiplot</span>(p1,p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#taking a simple look at the interaction</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diabetes_data, <span class="fu">aes</span>(<span class="at">x =</span> Diabetes_binary, <span class="at">fill =</span> Income)) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Education, <span class="at">nrow =</span> <span class="dv">2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -272,14 +282,10 @@ dbl (22): Diabetes_binary, HighBP, HighChol, CholCheck, BMI, Smoker, Stroke,...
 </div>
 </div>
 </div>
-<blockquote class="blockquote">
-<p>When looking at the interactions, a vast majority of the population has healthcare, no difficulty walking and costs are not an immediate concrern when going to the doctor. This majority also does not exibit any signs of diabetes. There are logical conclusions that could be drawn from this data alone, such as access to healthcare leading to healthier life styles which lower the chances of diabetes occuring in a population. However, these are just raw numbers. Further analysis would be needed to examine the likelyhood of such an occurance.</p>
-</blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#using a different setup to look at the interaction</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diabetes_data, <span class="fu">aes</span>(<span class="at">x =</span> Diabetes_binary, <span class="at">fill =</span> AnyHealthcare)) <span class="sc">+</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_grid</span>(.<span class="sc">~</span>NoDocbcCost, <span class="at">labeller=</span>label_both) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#taking a closer look at the interaction between education levels and diagnosis</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diabetes_data, <span class="fu">aes</span>(<span class="at">x =</span> Diabetes_binary, <span class="at">fill =</span> Education)) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -289,8 +295,8 @@ dbl (22): Diabetes_binary, HighBP, HighChol, CholCheck, BMI, Smoker, Stroke,...
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#visualizing population mental health and diabetes diagnisis</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diabetes_data, <span class="fu">aes</span>(<span class="at">x =</span> MentHlth, <span class="at">fill =</span> Diabetes_binary)) <span class="sc">+</span> </span>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#taking a closer look at the interaction between income and diagnosis</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diabetes_data, <span class="fu">aes</span>(<span class="at">x =</span> Diabetes_binary, <span class="at">fill =</span> Income)) <span class="sc">+</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -301,17 +307,9 @@ dbl (22): Diabetes_binary, HighBP, HighChol, CholCheck, BMI, Smoker, Stroke,...
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#adding mental health to other variable visualization</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diabetes_data, <span class="fu">aes</span>(MentHlth, <span class="at">fill =</span> Diabetes_binary)) <span class="sc">+</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(AnyHealthcare<span class="sc">~</span>NoDocbcCost, <span class="at">switch =</span> <span class="st">"x"</span>, <span class="at">labeller=</span>label_both) <span class="sc">+</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.placement =</span> <span class="st">"outside"</span>,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"points"</span>),</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line =</span> <span class="fu">element_line</span>()) <span class="sc">+</span> </span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="cf">function</span>(y) <span class="fu">format</span>(y, <span class="at">scientific =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#visualizing population mental health and diabetes diagnisis</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diabetes_data, <span class="fu">aes</span>(<span class="at">x =</span> MentHlth, <span class="at">fill =</span> Diabetes_binary)) <span class="sc">+</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -320,6 +318,61 @@ dbl (22): Diabetes_binary, HighBP, HighChol, CholCheck, BMI, Smoker, Stroke,...
 </div>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#visualizing population physical health and diabetes diagnisis</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diabetes_data, <span class="fu">aes</span>(<span class="at">x =</span> PhysHlth, <span class="at">fill =</span> Diabetes_binary)) <span class="sc">+</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDA_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#adding mental health to other variable visualization</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diabetes_data, <span class="fu">aes</span>(MentHlth, <span class="at">fill =</span> Diabetes_binary)) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Education, <span class="at">nrow =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.placement =</span> <span class="st">"outside"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"points"</span>),</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line =</span> <span class="fu">element_line</span>()) <span class="sc">+</span> </span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="cf">function</span>(y) <span class="fu">format</span>(y, <span class="at">scientific =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDA_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#repeating with physical health</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diabetes_data, <span class="fu">aes</span>(PhysHlth, <span class="at">fill =</span> Diabetes_binary)) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(AnyHealthcare<span class="sc">~</span>NoDocbcCost, <span class="at">switch =</span> <span class="st">"x"</span>, <span class="at">labeller=</span>label_both) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.placement =</span> <span class="st">"outside"</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"points"</span>),</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line =</span> <span class="fu">element_line</span>()) <span class="sc">+</span> </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="cf">function</span>(y) <span class="fu">format</span>(y, <span class="at">scientific =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDA_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>When looking at the interactions, a vast majority of the population has healthcare, no heavy use of alcohol and costs are not an immediate concrern when going to the doctor. This majority also does not exibit any signs of diabetes. There are logical conclusions that could be drawn from this data alone, such as access to healthcare leading to healthier life styles which lower the chances of diabetes occuring in a population. When taking education and income into account, there is a alight increase in diabetes diagnosis amongst those who only have a high school education or some/technical education. Though a small spike, it is still significant in the larger scheme of things as that could be caused by other socio-economic factors.</p>
+</blockquote>
 <p><a href="Modeling.html">Model Fitting</a></p>
 
 

@@ -219,8 +219,8 @@ dbl  (3): BMI, MentHlth, PhysHlth
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setting up a seed for reproducing results</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">124</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>binom <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> diabetes_model,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>binom <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> Education <span class="sc">+</span> Income <span class="sc">+</span> MentHlth <span class="sc">+</span> PhysHlth,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> diabetes_train,</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"glm"</span>,</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">family =</span> binomial,</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
@@ -231,17 +231,17 @@ dbl  (3): BMI, MentHlth, PhysHlth
 <div class="cell-output cell-output-stdout">
 <pre><code>Generalized Linear Model 
 
-253680 samples
-     3 predictor
-     2 classes: 'No', 'Pre.Yes' 
+177576 samples
+     6 predictor
+     2 classes: 'No', 'Yes' 
 
-Pre-processing: centered (3), scaled (3) 
+Pre-processing: centered (16), scaled (16) 
 Resampling: Cross-Validated (5 fold) 
-Summary of sample sizes: 202945, 202944, 202944, 202944, 202943 
+Summary of sample sizes: 142061, 142060, 142061, 142061, 142061 
 Resampling results:
 
   logLoss  
-  0.4011343</code></pre>
+  0.3800039</code></pre>
 </div>
 </div>
 </section>
@@ -251,8 +251,8 @@ Resampling results:
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setting up a seed for reproducing results</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">125</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>multinom <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> diabetes_model,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>multinom <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> Education <span class="sc">+</span> Income <span class="sc">+</span> MentHlth <span class="sc">+</span> PhysHlth,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> diabetes_train,</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"multinom"</span>,</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">trControl =</span> trainctrl,</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">preProcess=</span><span class="fu">c</span>(<span class="st">"center"</span>,<span class="st">"scale"</span>),</span>
@@ -263,22 +263,22 @@ Resampling results:
 <div class="cell-output cell-output-stdout">
 <pre><code>Penalized Multinomial Regression 
 
-253680 samples
-     3 predictor
-     2 classes: 'No', 'Pre.Yes' 
+177576 samples
+     6 predictor
+     2 classes: 'No', 'Yes' 
 
-Pre-processing: centered (3), scaled (3) 
+Pre-processing: centered (16), scaled (16) 
 Resampling: Cross-Validated (5 fold) 
-Summary of sample sizes: 202944, 202945, 202944, 202944, 202943 
+Summary of sample sizes: 142061, 142061, 142060, 142061, 142061 
 Resampling results across tuning parameters:
 
   decay  logLoss  
-  0e+00  0.4011445
-  1e-04  0.4011445
-  1e-01  0.4011446
+  0e+00  0.3799973
+  1e-04  0.3799973
+  1e-01  0.3799972
 
 logLoss was used to select the optimal model using the smallest value.
-The final value used for the model was decay = 0.</code></pre>
+The final value used for the model was decay = 0.1.</code></pre>
 </div>
 </div>
 </section>
@@ -288,8 +288,8 @@ The final value used for the model was decay = 0.</code></pre>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setting up a seed for reproducing results</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">126</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>bayes <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> diabetes_model,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>bayes <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> Education <span class="sc">+</span> Income <span class="sc">+</span> MentHlth <span class="sc">+</span> PhysHlth,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> diabetes_train,</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"bayesglm"</span>,</span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">trControl =</span> trainctrl,</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">preProcess=</span><span class="fu">c</span>(<span class="st">"center"</span>,<span class="st">"scale"</span>),</span>
@@ -300,30 +300,30 @@ The final value used for the model was decay = 0.</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Bayesian Generalized Linear Model 
 
-253680 samples
-     3 predictor
-     2 classes: 'No', 'Pre.Yes' 
+177576 samples
+     6 predictor
+     2 classes: 'No', 'Yes' 
 
-Pre-processing: centered (3), scaled (3) 
+Pre-processing: centered (16), scaled (16) 
 Resampling: Cross-Validated (5 fold) 
-Summary of sample sizes: 202943, 202944, 202944, 202945, 202944 
+Summary of sample sizes: 142061, 142060, 142061, 142061, 142061 
 Resampling results:
 
   logLoss  
-  0.4011344</code></pre>
+  0.3799946</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#visualizing the three models next to each other to find the best one</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">"Binomial"</span>, binom<span class="sc">$</span>results[<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]), <span class="co">#the best model by a single point </span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"Multinomial"</span>, multinom<span class="sc">$</span>results[<span class="dv">1</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"Bayesian GLM"</span>, bayes<span class="sc">$</span>results[<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)])</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"Multinomial"</span>, multinom<span class="sc">$</span>results[<span class="dv">3</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"Bayesian GLM"</span>, bayes<span class="sc">$</span>results[<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]) <span class="co">#winning model by 0.000003 of a point</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                    logLoss   logLossSD   
-[1,] "Binomial"     0.4011343 0.0001439749
-[2,] "Multinomial"  0.4011445 0.0004610336
-[3,] "Bayesian GLM" 0.4011344 0.0003495619</code></pre>
+[1,] "Binomial"     0.3800039 0.001242739 
+[2,] "Multinomial"  0.3799972 0.001364705 
+[3,] "Bayesian GLM" 0.3799946 0.0006920752</code></pre>
 </div>
 </div>
 </section>
@@ -341,7 +341,7 @@ Resampling results:
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>cp <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">cp =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fl">0.01</span>))</span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#unfortunately, the resulting tree model needed additional variables to get a better fit</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>classtree <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth <span class="sc">+</span> Age <span class="sc">+</span> BMI <span class="sc">+</span> PhysHlth <span class="sc">+</span> Education, </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>classtree <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> Education <span class="sc">+</span> Income <span class="sc">+</span> MentHlth <span class="sc">+</span> PhysHlth, </span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> diabetes_train,</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"rpart"</span>,</span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">metric =</span> <span class="st">"logLoss"</span>,</span>
@@ -355,16 +355,16 @@ Resampling results:
 <pre><code>CART 
 
 177576 samples
-     7 predictor
-     2 classes: 'No', 'Pre.Yes' 
+     6 predictor
+     2 classes: 'No', 'Yes' 
 
-Pre-processing: centered (22), scaled (22) 
+Pre-processing: centered (16), scaled (16) 
 Resampling: Cross-Validated (5 fold) 
 Summary of sample sizes: 142061, 142060, 142061, 142061, 142061 
 Resampling results across tuning parameters:
 
   cp    logLoss  
-  0.00  0.3745657
+  0.00  0.3887562
   0.01  0.4032255
   0.02  0.4032255
   0.03  0.4032255
@@ -385,9 +385,9 @@ The final value used for the model was cp = 0.</code></pre>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">128</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#altering the tuning parameter</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>cp2 <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">cp =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">0.05</span>))</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>cp2 <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">cp =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">0.05</span>, <span class="fl">0.005</span>))</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>classtree2 <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth <span class="sc">+</span> Age <span class="sc">+</span> BMI <span class="sc">+</span> PhysHlth <span class="sc">+</span> Education, </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>classtree2 <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> Education <span class="sc">+</span> Income <span class="sc">+</span> MentHlth <span class="sc">+</span> PhysHlth, </span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> diabetes_train,</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"rpart"</span>,</span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">metric =</span> <span class="st">"logLoss"</span>,</span>
@@ -401,26 +401,26 @@ The final value used for the model was cp = 0.</code></pre>
 <pre><code>CART 
 
 177576 samples
-     7 predictor
-     2 classes: 'No', 'Pre.Yes' 
+     6 predictor
+     2 classes: 'No', 'Yes' 
 
-Pre-processing: centered (22), scaled (22) 
+Pre-processing: centered (16), scaled (16) 
 Resampling: Cross-Validated (5 fold) 
 Summary of sample sizes: 142061, 142061, 142060, 142061, 142061 
 Resampling results across tuning parameters:
 
-  cp    logLoss  
-  0.00  0.3805502
-  0.05  0.4032255
-  0.10  0.4032255
-  0.15  0.4032255
-  0.20  0.4032255
-  0.25  0.4032255
-  0.30  0.4032255
-  0.35  0.4032255
-  0.40  0.4032255
-  0.45  0.4032255
-  0.50  0.4032255
+  cp     logLoss  
+  0.000  0.3857641
+  0.005  0.4032255
+  0.010  0.4032255
+  0.015  0.4032255
+  0.020  0.4032255
+  0.025  0.4032255
+  0.030  0.4032255
+  0.035  0.4032255
+  0.040  0.4032255
+  0.045  0.4032255
+  0.050  0.4032255
 
 logLoss was used to select the optimal model using the smallest value.
 The final value used for the model was cp = 0.</code></pre>
@@ -431,9 +431,9 @@ The final value used for the model was cp = 0.</code></pre>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">129</span>)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#altering the tuning parameter</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>cp3 <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">cp =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.1</span>))</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>cp3 <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">cp =</span> <span class="fu">seq</span>(<span class="fl">0.75</span>, <span class="dv">1</span>, <span class="fl">0.01</span>))</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>classtree3 <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth <span class="sc">+</span> Age <span class="sc">+</span> BMI <span class="sc">+</span> PhysHlth <span class="sc">+</span> Education, </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>classtree3 <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> Education <span class="sc">+</span> Income <span class="sc">+</span> MentHlth <span class="sc">+</span> PhysHlth, </span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> diabetes_train,</span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"rpart"</span>,</span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">metric =</span> <span class="st">"logLoss"</span>,</span>
@@ -447,16 +447,16 @@ The final value used for the model was cp = 0.</code></pre>
 <pre><code>CART 
 
 177576 samples
-     7 predictor
-     2 classes: 'No', 'Pre.Yes' 
+     6 predictor
+     2 classes: 'No', 'Yes' 
 
-Pre-processing: centered (22), scaled (22) 
+Pre-processing: centered (16), scaled (16) 
 Resampling: Cross-Validated (5 fold) 
 Summary of sample sizes: 142061, 142061, 142061, 142060, 142061 
 Resampling results across tuning parameters:
 
   cp    logLoss  
-  0.00  0.3752732
+  0.00  0.3860290
   0.01  0.4032255
   0.02  0.4032255
   0.03  0.4032255
@@ -474,15 +474,15 @@ The final value used for the model was cp = 0.</code></pre>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#visualizing the three models next to each other to find the best level of cp</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">"CP: 0-0.1, 0.01, "</span>, classtree<span class="sc">$</span>results[<span class="dv">1</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"CP: 0-0.5, 0.05"</span>, classtree2<span class="sc">$</span>results[<span class="dv">1</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">"CP: 0-0.1, 0.01"</span>, classtree<span class="sc">$</span>results[<span class="dv">1</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"CP: 0-0.05, 0.005"</span>, classtree2<span class="sc">$</span>results[<span class="dv">1</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"CP: 0-1, 0.1"</span>, classtree3<span class="sc">$</span>results[<span class="dv">1</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)])</span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>      )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                         logLoss   logLossSD  
-[1,] "CP: 0-0.1, 0.01, " 0.3745657 0.003493501
-[2,] "CP: 0-0.5, 0.05"   0.3805502 0.003567191
-[3,] "CP: 0-1, 0.1"      0.3752732 0.005795191</code></pre>
+[1,] "CP: 0-0.1, 0.01"   0.3887562 0.00308509 
+[2,] "CP: 0-0.05, 0.005" 0.3857641 0.001145128
+[3,] "CP: 0-1, 0.1"      0.386029  0.003647874</code></pre>
 </div>
 </div>
 </section>
@@ -498,11 +498,11 @@ The final value used for the model was cp = 0.</code></pre>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#setting up mtry sequence with 11 as the number of predictors</span></span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>mtry <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">splitrule=</span><span class="st">"extratrees"</span>,</span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">min.node.size=</span><span class="dv">100</span>,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mtry =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>))</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mtry =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>))</span>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#building the model with random forest model and training it on the train data set</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>randtree <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth, </span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> diabetes_model, </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>randtree <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> Education <span class="sc">+</span> Income <span class="sc">+</span> MentHlth <span class="sc">+</span> PhysHlth, </span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> diabetes_train, </span>
 <span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"ranger"</span>,</span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
 <span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tuneGrid =</span> mtry,</span>
@@ -514,25 +514,28 @@ The final value used for the model was cp = 0.</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Random Forest 
 
-253680 samples
-     3 predictor
-     2 classes: 'No', 'Pre.Yes' 
+177576 samples
+     6 predictor
+     2 classes: 'No', 'Yes' 
 
-Pre-processing: centered (3), scaled (3) 
+Pre-processing: centered (16), scaled (16) 
 Resampling: Cross-Validated (5 fold) 
-Summary of sample sizes: 202945, 202944, 202943, 202944, 202944 
+Summary of sample sizes: 142061, 142060, 142061, 142061, 142061 
 Resampling results across tuning parameters:
 
   mtry  logLoss  
-  1     0.4013815
-  2     0.4008127
-  3     0.4008310
+  1     0.3885527
+  2     0.3819272
+  3     0.3799755
+  4     0.3793209
+  5     0.3791845
+  6     0.3792551
 
 Tuning parameter 'splitrule' was held constant at a value of extratrees
 
 Tuning parameter 'min.node.size' was held constant at a value of 100
 logLoss was used to select the optimal model using the smallest value.
-The final values used for the model were mtry = 2, splitrule = extratrees
+The final values used for the model were mtry = 5, splitrule = extratrees
  and min.node.size = 100.</code></pre>
 </div>
 </div>
@@ -541,16 +544,16 @@ The final values used for the model were mtry = 2, splitrule = extratrees
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">131</span>)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>mtry2 <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">splitrule=</span><span class="st">"extratrees"</span>,</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">min.node.size=</span><span class="dv">100</span>,</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mtry =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>))</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">min.node.size=</span><span class="dv">75</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mtry =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>))</span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#repeating the model</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>randtree2 <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth, </span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> diabetes_model, </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>randtree2 <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> Education <span class="sc">+</span> Income <span class="sc">+</span> MentHlth <span class="sc">+</span> PhysHlth, </span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> diabetes_train, </span>
 <span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"ranger"</span>,</span>
 <span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
 <span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tuneGrid =</span> mtry2,</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ntree =</span> <span class="dv">75</span>,</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ntree =</span> <span class="dv">50</span>,</span>
 <span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">trControl =</span> trainctrl)</span>
 <span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model</span></span>
@@ -558,26 +561,29 @@ The final values used for the model were mtry = 2, splitrule = extratrees
 <div class="cell-output cell-output-stdout">
 <pre><code>Random Forest 
 
-253680 samples
-     3 predictor
-     2 classes: 'No', 'Pre.Yes' 
+177576 samples
+     6 predictor
+     2 classes: 'No', 'Yes' 
 
-Pre-processing: centered (3), scaled (3) 
+Pre-processing: centered (16), scaled (16) 
 Resampling: Cross-Validated (5 fold) 
-Summary of sample sizes: 202944, 202943, 202944, 202944, 202945 
+Summary of sample sizes: 142061, 142061, 142061, 142060, 142061 
 Resampling results across tuning parameters:
 
   mtry  logLoss  
-  1     0.4014021
-  2     0.4008260
-  3     0.4008941
+  1     0.3884638
+  2     0.3818999
+  3     0.3800075
+  4     0.3793678
+  5     0.3792473
+  6     0.3793626
 
 Tuning parameter 'splitrule' was held constant at a value of extratrees
 
-Tuning parameter 'min.node.size' was held constant at a value of 100
+Tuning parameter 'min.node.size' was held constant at a value of 75
 logLoss was used to select the optimal model using the smallest value.
-The final values used for the model were mtry = 2, splitrule = extratrees
- and min.node.size = 100.</code></pre>
+The final values used for the model were mtry = 5, splitrule = extratrees
+ and min.node.size = 75.</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -586,15 +592,15 @@ The final values used for the model were mtry = 2, splitrule = extratrees
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#altering mtry</span></span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>mtry3 <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">splitrule=</span><span class="st">"extratrees"</span>,</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">min.node.size=</span><span class="dv">100</span>,</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mtry =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>))</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">min.node.size=</span><span class="dv">50</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mtry =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>))</span>
 <span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#repeating the model</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>randtree3 <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> MentHlth, </span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> diabetes_model, </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>randtree3 <span class="ot">&lt;-</span> <span class="fu">train</span>(Diabetes_binary <span class="sc">~</span> AnyHealthcare <span class="sc">+</span> NoDocbcCost <span class="sc">+</span> Education <span class="sc">+</span> Income <span class="sc">+</span> MentHlth <span class="sc">+</span> PhysHlth, </span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> diabetes_train, </span>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"ranger"</span>,</span>
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
 <span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tuneGrid =</span> mtry3,</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ntree =</span> <span class="dv">100</span>,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ntree =</span> <span class="dv">50</span>,</span>
 <span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">trControl =</span> trainctrl)</span>
 <span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model</span></span>
@@ -602,39 +608,42 @@ The final values used for the model were mtry = 2, splitrule = extratrees
 <div class="cell-output cell-output-stdout">
 <pre><code>Random Forest 
 
-253680 samples
-     3 predictor
-     2 classes: 'No', 'Pre.Yes' 
+177576 samples
+     6 predictor
+     2 classes: 'No', 'Yes' 
 
-Pre-processing: centered (3), scaled (3) 
+Pre-processing: centered (16), scaled (16) 
 Resampling: Cross-Validated (5 fold) 
-Summary of sample sizes: 202944, 202944, 202944, 202944, 202944 
+Summary of sample sizes: 142061, 142061, 142060, 142061, 142061 
 Resampling results across tuning parameters:
 
   mtry  logLoss  
-  1     0.4013931
-  2     0.4008142
-  3     0.4008548
+  1     0.3885868
+  2     0.3819370
+  3     0.3800090
+  4     0.3793882
+  5     0.3793003
+  6     0.3794912
 
 Tuning parameter 'splitrule' was held constant at a value of extratrees
 
-Tuning parameter 'min.node.size' was held constant at a value of 100
+Tuning parameter 'min.node.size' was held constant at a value of 50
 logLoss was used to select the optimal model using the smallest value.
-The final values used for the model were mtry = 2, splitrule = extratrees
- and min.node.size = 100.</code></pre>
+The final values used for the model were mtry = 5, splitrule = extratrees
+ and min.node.size = 50.</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#visualizing the three models next to each other to find the best level of mtry and n-trees</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">"mtry: 1-5, n-tree: 50"</span>, randtree<span class="sc">$</span>results[<span class="dv">2</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"mtry: 1-7, n-tree: 75"</span>, randtree2<span class="sc">$</span>results[<span class="dv">2</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"mtry: 1-10, n-tree: 100"</span>, randtree3<span class="sc">$</span>results[<span class="dv">2</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)])</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">"mtry: 1-6, nodes: 100"</span>, randtree<span class="sc">$</span>results[<span class="dv">5</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"mtry: 1-6, nodes: 75"</span>, randtree2<span class="sc">$</span>results[<span class="dv">5</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)]),</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"mtry: 1-6, nodes: 50"</span>, randtree3<span class="sc">$</span>results[<span class="dv">5</span>, ][<span class="fu">c</span>(<span class="st">"logLoss"</span>, <span class="st">"logLossSD"</span>)])</span>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>      )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                               logLoss   logLossSD   
-[1,] "mtry: 1-5, n-tree: 50"   0.4008127 0.0002007077
-[2,] "mtry: 1-7, n-tree: 75"   0.400826  0.0002944988
-[3,] "mtry: 1-10, n-tree: 100" 0.4008142 0.000377963 </code></pre>
+<pre><code>                             logLoss   logLossSD   
+[1,] "mtry: 1-6, nodes: 100" 0.3791845 0.001367659 
+[2,] "mtry: 1-6, nodes: 75"  0.3792473 0.0005999624
+[3,] "mtry: 1-6, nodes: 50"  0.3793003 0.001136739 </code></pre>
 </div>
 </div>
 </section>
@@ -644,7 +653,7 @@ The final values used for the model were mtry = 2, splitrule = extratrees
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#running the model over the test data with probability as the output and building it into a data frame for use in the log loss function</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>predicted1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">obs =</span> diabetes_test<span class="sc">$</span>Diabetes_binary, <span class="co">#observation values taken from the test data set</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">pred =</span> <span class="fu">predict</span>(binom, diabetes_test), <span class="co">#the prediction function with raw values </span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">pred =</span> <span class="fu">predict</span>(bayes, diabetes_test), <span class="co">#the prediction function with raw values </span></span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">predict</span>(binom, diabetes_test, <span class="at">type =</span> <span class="st">"prob"</span>)) <span class="co">#probability prediction</span></span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#calculating log loss</span></span>
@@ -672,18 +681,18 @@ The final values used for the model were mtry = 2, splitrule = extratrees
 <section id="winning-model" class="level2">
 <h2 class="anchored" data-anchor-id="winning-model">Winning Model:</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">"Binomial"</span>, glm_test), <span class="co">#the best model by a single point </span></span>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">"Bayes"</span>, glm_test), <span class="co">#the best model by a single point </span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"Classification Tree"</span>, ct_test),</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"Random Forest"</span>, rf_test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                           logLoss            
-[1,] "Binomial"            "0.403094104655764"
-[2,] "Classification Tree" "0.378453507051412"
-[3,] "Random Forest"       "0.402505402837576"</code></pre>
+[1,] "Bayes"               "0.384544029443957"
+[2,] "Classification Tree" "0.390821998409196"
+[3,] "Random Forest"       "0.383616241101218"</code></pre>
 </div>
 </div>
 <blockquote class="blockquote">
-<p>Though the lowest log loss was shown by the classification tree model, that was achieved by adding more than the chosen response variables to coax the model to give different values. The winning model in my opinion is the random forest as it showed the lowest log loss in the training models but also the lowest when using the test set.</p>
+<p>The winning model in my opinion is the random forest as it showed the lowest log loss in the training models but also the lowest when using the test set.</p>
 </blockquote>
 
 

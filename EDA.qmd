@@ -6,7 +6,7 @@ format: html
 ---
 
 ## Introduction: 
-  > The base data set for this workthrough is a binary data set of survey responses to a CDC behavioral and chronic disease surveillance study done for diabetes. I have chosen `mental health`, `healthcare` and `ability/inability to see a physicians due to the cost of the visit`. The response variable is the `presence of prediabetes or diabetes`. The purpose of this EDA is to get a general idea of how the chosen variables effect levels of diabetes. Ultimately, I will be using these variables to model the likelyhood of diabetes occuring at different levels of variables. 
+  > The base data set for this workthrough is a binary data set of survey responses to a CDC behavioral and chronic disease surveillance study done for diabetes. I have chosen `heavy alchohol consumption`, `healthcare`,  `ability/inability to see a physicians due to the cost of the visit`, `education` and `income` as the categorical variables and `mental` and `physical` health as the continuous variables. The response variable is the `presence of prediabetes or diabetes`. The purpose of this EDA is to get a general idea of how the chosen variables effect levels of diabetes. Ultimately, I will be using these variables to model the likelyhood of diabetes occuring at different levels of variables. 
 
 ## Initial Library Read-in:
 ```{r, warning = FALSE, message = FALSE}
@@ -32,7 +32,7 @@ sum(is.na(diabetes_data))
 
 ```{r echo = FALSE}
 #changing variables to factor with valid levels; added the if statements to prevent the code from not running when the columns were already changed
-if(is.numeric(diabetes_data$Diabetes_binary)) diabetes_data$Diabetes_binary <- cut(diabetes_data$Diabetes_binary, 2, labels = c("No", "Pre.Yes"))
+if(is.numeric(diabetes_data$Diabetes_binary)) diabetes_data$Diabetes_binary <- cut(diabetes_data$Diabetes_binary, 2, labels = c("No", "Yes"))
 
 if(is.numeric(diabetes_data$HighBP)) diabetes_data$HighBP <- cut(diabetes_data$HighBP, 2, labels = c("No", "Yes"))
 
@@ -85,7 +85,7 @@ diabetes_data
 ## Summaries:
 ```{r}
 #getting summary of selected variables, will be useful later on
-selected_cols <- c("Diabetes_binary", "AnyHealthcare", "NoDocbcCost", "MentHlth")
+selected_cols <- c("Diabetes_binary", "AnyHealthcare", "NoDocbcCost", "Education", "Income", "MentHlth", "PhysHlth")
 
 summary(diabetes_data[selected_cols])
 ```
@@ -93,27 +93,29 @@ summary(diabetes_data[selected_cols])
 ```{r}
 #getting an idea of the count of different levels, this can also provide a general idea of how likely it is for someone to have diabetes under certain conditions; this is further shown through the plots
 diabetes_data |>
-  group_by(Diabetes_binary, MentHlth, AnyHealthcare, NoDocbcCost) |>
+  group_by(Diabetes_binary, AnyHealthcare, NoDocbcCost, Education, Income, MentHlth, PhysHlth) |>
   tally()
 ```
 
-```{r}
-#looking at the interactions between the different categorical variables and the response variable 
-p1 <- ggplot(diabetes_data, aes(Diabetes_binary, fill = interaction(AnyHealthcare, NoDocbcCost))) + 
-      geom_bar(position = "dodge")
-
-p2 <- ggplot(diabetes_data, aes(Diabetes_binary, fill = interaction(DiffWalk, NoDocbcCost))) + 
-      geom_bar(position = "dodge")
-
-multiplot(p1,p2)
-```
-  > When looking at the interactions, a vast majority of the population has healthcare, no difficulty walking and costs are not an immediate concrern when going to the doctor. This majority also does not exibit any signs of diabetes. There are logical conclusions that could be drawn from this data alone, such as access to healthcare leading to healthier life styles which lower the chances of diabetes occuring in a population. However, these are just raw numbers. Further analysis would be needed to examine the likelyhood of such an occurance. 
+  > When looking at the interactions, a vast majority of the population has healthcare, no heavy use of alcohol and costs are not an immediate concrern when going to the doctor. This majority also does not exibit any signs of diabetes. There are logical conclusions that could be drawn from this data alone, such as access to healthcare leading to healthier life styles which lower the chances of diabetes occuring in a population. However, these are just raw numbers. Further analysis would be needed to examine the likelyhood of such an occurance. 
 
 ```{r}
-#using a different setup to look at the interaction
-ggplot(diabetes_data, aes(x = Diabetes_binary, fill = AnyHealthcare)) +
+#taking a simple look at the interaction
+ggplot(diabetes_data, aes(x = Diabetes_binary, fill = Income)) +
     geom_bar(position = "dodge") +
-    facet_grid(.~NoDocbcCost, labeller=label_both) 
+    facet_wrap(~ Education, nrow = 2) 
+```
+
+```{r}
+#taking a closer look at the interaction between education levels and diagnosis
+ggplot(diabetes_data, aes(x = Diabetes_binary, fill = Education)) +
+    geom_bar(position = "dodge")
+```
+
+```{r}
+#taking a closer look at the interaction between income and diagnosis
+ggplot(diabetes_data, aes(x = Diabetes_binary, fill = Income)) +
+    geom_bar(position = "dodge")
 ```
 
 ```{r}
@@ -123,8 +125,27 @@ ggplot(diabetes_data, aes(x = MentHlth, fill = Diabetes_binary)) +
 ```
 
 ```{r}
+#visualizing population physical health and diabetes diagnisis
+ggplot(diabetes_data, aes(x = PhysHlth, fill = Diabetes_binary)) + 
+    geom_bar(position = "dodge")
+```
+
+```{r}
 #adding mental health to other variable visualization
 ggplot(diabetes_data, aes(MentHlth, fill = Diabetes_binary)) +
+  geom_bar(position = "dodge") +
+  facet_wrap(~ Education, nrow = 2) +
+  theme_bw() +
+  theme(strip.placement = "outside",
+        strip.background = element_blank(),
+        panel.border = element_blank(),
+        panel.spacing = unit(0, "points"),
+        axis.line = element_line()) + 
+  scale_y_continuous(labels = function(y) format(y, scientific = FALSE))
+```
+```{r}
+#repeating with physical health
+ggplot(diabetes_data, aes(PhysHlth, fill = Diabetes_binary)) +
   geom_bar(position = "dodge") +
   facet_grid(AnyHealthcare~NoDocbcCost, switch = "x", labeller=label_both) +
   theme_bw() +
@@ -135,5 +156,7 @@ ggplot(diabetes_data, aes(MentHlth, fill = Diabetes_binary)) +
         axis.line = element_line()) + 
   scale_y_continuous(labels = function(y) format(y, scientific = FALSE))
 ```
+  > When looking at the interactions, a vast majority of the population has healthcare, no heavy use of alcohol and costs are not an immediate concrern when going to the doctor. This majority also does not exibit any signs of diabetes. There are logical conclusions that could be drawn from this data alone, such as access to healthcare leading to healthier life styles which lower the chances of diabetes occuring in a population. When taking education and income into account, there is a alight increase in diabetes diagnosis amongst those who only have a high school education or some/technical education. Though a small spike, it is still significant in the larger scheme of things as that could be caused by other socio-economic factors. 
+
 
 [Model Fitting](Modeling.html)
