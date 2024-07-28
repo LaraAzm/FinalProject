@@ -1,8 +1,6 @@
 #library read in
 library(readr)
 library(readxl)
-library(dplyr)
-library(tidyverse)
 library(caret)
 library(ranger)
 
@@ -36,7 +34,7 @@ final_model <- train(Diabetes_binary ~ AnyHealthcare + NoDocbcCost + Education +
                    method = "ranger",
                    preProcess = c("center", "scale"),
                    tuneGrid = final_mtry,
-                   ntree = 50,
+                   num.tree = 50,
                    trControl = trainctrl)
 
 #run the model once
@@ -76,7 +74,7 @@ get_diabetes_predict <- function(AnyHealthcare = "Yes", NoDocbcCost = "No", Educ
 #http://localhost:PORT/pred?AnyHealthcare=No&NoDocbcCost=No&Education=High.School&Income=15000&MentHlth=30&PhysHlth=30
 
 #* Information for the API
-#* @post /info
+#* @get /info
 info <- function(){
   name <- "Laraib Azmat"
   url <- "https://laraazm.github.io/FinalProject/"
